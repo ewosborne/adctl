@@ -39,8 +39,13 @@ fmt:
     goimports -l -w .
     go fmt
 
-build: fmt
-    go build -ldflags "-s -w" .
+linux:
+    GOOS=linux GOARCH=amd64  go build -o adctl-linux -ldflags "-s -w" . 
+
+mac:
+    GOOS=darwin GOARCH=arm64  go build -o adctl-mac -ldflags "-s -w" . 
+
+build: fmt linux mac
 
 clean:
     go clean -testcache
