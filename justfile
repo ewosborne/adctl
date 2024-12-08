@@ -44,14 +44,14 @@ linux:
 
 mac:
     GOOS=darwin GOARCH=arm64  go build -o adctl-mac-arm -ldflags "-s -w" . 
-    mv adctl-mac-arm adctl
+    ln -fs adctl-mac-arm adctl
 
 build: fmt linux mac
 
 clean:
     go clean -testcache
     go mod tidy
-    rm -f $bin
+    rm -f $bin adctl-mac-arm adctl-linux
 
 install: build test
     cp ./$bin ~/bin/
