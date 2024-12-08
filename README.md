@@ -26,6 +26,9 @@ The username and password are what you'd use to log into the AdGuard Home consol
 ## Building
 I use [just](https://just.systems/) so everything is in a `justfile`. You can do that too, or just copy the steps from that file and run them by hand. No magic here. `just build` or `go build -ldflags "-s -w" .`, as you like.
 
+## Testing
+All of these tests run against an AdGuard Home server, I don't have any fancy test harnesses or mocks or anything. YMMV but this approach works for me.
+
 
 ## Examples
 
@@ -42,7 +45,7 @@ Disables adblocker. Takes an optional [duration string](https://pkg.go.dev/time#
     adguard is disabled for 29s
 
 ### getlog
-Returns a json of the logs from the server. The server's default is 500 entries (0-499) but you can limit this with `getlog [limit]`.  
+Returns a json of the logs from the server. The server's default is 500 entries (0-499) but you can change this with `getlog [limit]`.  
 
     eric@air ~ % adctl getlog 42 | jq '.data[41]'
     {
