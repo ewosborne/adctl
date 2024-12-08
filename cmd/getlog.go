@@ -18,7 +18,7 @@ import (
 // getlogCmd represents the getlog command
 var getlogCmd = &cobra.Command{
 	Use:   "getlog",
-	Short: "Get logs. Optional length parameter, 0 == MaxUint32 log length..",
+	Short: "Get logs. Optional length parameter, 0 == MaxUint32 log length.",
 	RunE:  GetLogCmdE,
 }
 

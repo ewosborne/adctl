@@ -10,7 +10,7 @@
     completion  Generate the autocompletion script for the specified shell
     disable     Disable ad blocker. Optional duration in time.Duration format.
     enable      Enable ad blocking
-    getlog      Get logs. Optional length parameter, 0 == MaxUint32 log length..
+    getlog      Get logs. Optional length parameter, 0 == MaxUint32 log length.
     help        Help about any command
     status      Get adblock status
     toggle      Toggle adblocker between enabled and disabled.
