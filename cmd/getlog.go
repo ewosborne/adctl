@@ -51,7 +51,7 @@ func getLogCommand(args []string) (bytes.Buffer, error) {
 	queryValues := url.Values{}
 	if len(args) > 0 {
 		if args[0] == "0" {
-			queryValues.Add("limit", fmt.Sprintf("%v", math.MaxUint32))
+			queryValues.Add("limit", fmt.Sprintf("%v", uint32(math.MaxUint32)))
 		} else {
 			queryValues.Add("limit", args[0])
 		}

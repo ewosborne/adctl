@@ -40,18 +40,24 @@ fmt:
     go fmt
 
 linux:
-    GOOS=linux GOARCH=amd64  go build -o adctl-linux -ldflags "-s -w" . 
+    GOOS=linux GOARCH=amd64  go build -o build/adctl-linux -ldflags "-s -w" . 
 
 mac:
-    GOOS=darwin GOARCH=arm64  go build -o adctl-mac-arm -ldflags "-s -w" . 
-    ln -fs adctl-mac-arm $bin
+    GOOS=darwin GOARCH=arm64  go build -o build/adctl-mac-arm -ldflags "-s -w" . 
+    ln -fs build/adctl-mac-arm ./$bin
 
-build: fmt linux mac
+windows:
+    GOOS=windows GOARCH=amd64  go build -o build/adctl-amd64.exe -ldflags "-s -w" . 
+    GOOS=windows GOARCH=386  go build -o build/adctl-386.exe -ldflags "-s -w" . 
+
+build: fmt mac windows
+
+multibuild: fmt mac linux
 
 clean:
     go clean -testcache
     go mod tidy
     rm -f $bin adctl-mac-arm adctl-linux
 
-install: build test
+install: test
     cp ./$bin ~/bin/

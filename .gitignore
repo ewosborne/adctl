@@ -1,3 +1,2 @@
-adctl-*
-adctl
+build/*
 coverage.out
