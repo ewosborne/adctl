@@ -44,7 +44,7 @@ linux:
 
 mac:
     GOOS=darwin GOARCH=arm64  go build -o adctl-mac-arm -ldflags "-s -w" . 
-    ln -fs adctl-mac-arm adctl
+    ln -fs adctl-mac-arm $bin
 
 build: fmt linux mac
 
