@@ -1,0 +1,4 @@
+* add /filtering/check_host and /filtering/refresh support
+* /querylog parameters for more complex log fetching.
+* parental, safesearch, safebrowsing support
+* stats, blocked services support
