@@ -43,7 +43,8 @@ linux:
     GOOS=linux GOARCH=amd64  go build -o adctl-linux -ldflags "-s -w" . 
 
 mac:
-    GOOS=darwin GOARCH=arm64  go build -o adctl-mac -ldflags "-s -w" . 
+    GOOS=darwin GOARCH=arm64  go build -o adctl-mac-arm -ldflags "-s -w" . 
+    mv adctl-mac-arm adctl
 
 build: fmt linux mac
 
