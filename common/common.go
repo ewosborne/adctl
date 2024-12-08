@@ -107,7 +107,7 @@ func SendCommand(ca CommandArgs) ([]byte, error) {
 	// set request headers
 	request.Header.Set("Content-Type", "application/json")
 
-	// set basic auth TODO put this somewhere smart.
+	// set basic auth TODO put this somewhere smart?
 	un, present := os.LookupEnv("ADCTL_USERNAME")
 	if !present {
 		return nil, fmt.Errorf("can't find ADCTL_USERNAME")
