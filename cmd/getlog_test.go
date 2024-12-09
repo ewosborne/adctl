@@ -19,4 +19,20 @@ func Test_Getlog(t *testing.T) {
 	}
 }
 
-// TODO: add test for filter
+func Test_Getlog_Filter(t *testing.T) {
+	// test with an allowed and disallowed filter.
+	filter = "all"
+	var err error
+	_, err = getLogCommand([]string{"10"})
+
+	if err != nil {
+		t.Error("error getting getLogCommand with valid filter", err)
+	}
+
+	filter = "bogon"
+	_, err = getLogCommand([]string{"10"})
+
+	if err == nil {
+		t.Error("tried getLogCommand with invalid filter and didn't get error")
+	}
+}
