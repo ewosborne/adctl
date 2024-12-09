@@ -3,3 +3,6 @@
 * parental, safesearch, safebrowsing support
 * stats, blocked services support
 * TUI?
+
+* debug flag
+* verbose - similar to debug.
