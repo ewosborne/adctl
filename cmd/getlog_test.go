@@ -38,7 +38,7 @@ func Test_Getlog_Filter(t *testing.T) {
 		t.Error("tried getLogCommand with invalid filter and didn't get error")
 	}
 
-	filter = initialFilter // need to do this to reset so
+	filter = initialFilter // reset because this would otherwise carry across tests
 
 }
 func Test_Getlog_Search(t *testing.T) {
