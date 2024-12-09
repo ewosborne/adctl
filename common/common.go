@@ -107,7 +107,7 @@ func SendCommand(ca CommandArgs) ([]byte, error) {
 	// set request headers
 	request.Header.Set("Content-Type", "application/json")
 
-	// set basic auth TODO put this somewhere smart?
+	// set basic auth 
 	un, present := os.LookupEnv("ADCTL_USERNAME")
 	if !present {
 		return nil, fmt.Errorf("can't find ADCTL_USERNAME")
@@ -118,8 +118,8 @@ func SendCommand(ca CommandArgs) ([]byte, error) {
 	}
 	request.SetBasicAuth(un, pw)
 
-	// connect.  TODO old stuff let me set timeouts to handle short dns timeouts and
-	//   long log fetches.  bother with it here?
+	// connect.  Old implementation let me set timeouts to handle short dns timeouts and
+	//   long log fetches.  bother with it here? skipping for now.
 	client := &http.Client{}
 	resp, err := client.Do(request)
 	if err != nil {
