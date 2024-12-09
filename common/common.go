@@ -119,9 +119,9 @@ func SendCommand(ca CommandArgs) ([]byte, error) {
 	request.SetBasicAuth(un, pw)
 
 	// TODO: debug flag for stuff like this.
-	if request.Method == "GET" {
-		fmt.Printf("sending request %+v\n", request)
-	}
+	// if request.Method == "GET" {
+	// 	fmt.Printf("sending request %+v\n", request)
+	// }
 
 	// connect.  Old implementation let me set timeouts to handle short dns timeouts and
 	//   long log fetches.  bother with it here? skipping for now.
