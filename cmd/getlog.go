@@ -53,8 +53,6 @@ func populateLogArgs(args []string) {
 
 func GetLogCmdE(cmd *cobra.Command, args []string) error {
 
-	// TODO: change args to a struct of what it needs, passing in by args is weird.
-
 	fmt.Println("args are", args)
 
 	populateLogArgs(args)
@@ -74,7 +72,6 @@ func printLog(queryLogs LogArgs) error {
 	return nil
 }
 
-// TODO: this is all hosed up and args should be a map or something, I think.  need to make sure I really understand how this works because it doesn't test out right.
 func getLogCommand(queryLogs LogArgs) (bytes.Buffer, error) {
 	var indentedJson bytes.Buffer
 
@@ -89,8 +86,6 @@ func getLogCommand(queryLogs LogArgs) (bytes.Buffer, error) {
 
 	queryValues.Add("limit", queryLogs.limit)
 
-	//fmt.Println("YOU WANT FILTER", filter)
-	// TODO: check allowedFilters and see if filter is in there
 	idx := slices.Index(allowedFilters, queryLogs.filter)
 	if idx >= 0 {
 		queryValues.Add("response_status", queryLogs.filter)
@@ -108,6 +103,7 @@ func getLogCommand(queryLogs LogArgs) (bytes.Buffer, error) {
 		Method: "GET",
 		URL:    baseURL,
 	}
+
 
 	body, err := common.SendCommand(statusQuery)
 	if err != nil {

@@ -11,10 +11,11 @@ type ValidQueryResult struct {
 	Oldest string `json:"oldest"`
 }
 
+var TestLogArgsInstance = LogArgs{limit: "10", filter: "all"}
+
 func Test_Getlog(t *testing.T) {
 	// test only a small log thing
-	fmt.Printf("in test_getlog with %+v\n", LogArgsInstance)
-	log, err := getLogCommand(LogArgsInstance)
+	log, err := getLogCommand(TestLogArgsInstance)
 
 	if err != nil {
 		t.Error("error getting getLogCommand", err)
@@ -29,10 +30,8 @@ func Test_Getlog(t *testing.T) {
 func Test_Getlog_Filter(t *testing.T) {
 	// test with an allowed and disallowed filter.
 	// filter comes from the variable declared as a flag
-	initialFilter := filter
-	filter = "all"
 	var err error
-	body, err := getLogCommand(LogArgsInstance)
+	body, err := getLogCommand(TestLogArgsInstance)
 
 	if err != nil {
 		t.Error("error getting getLogCommand with valid filter", err)
@@ -47,9 +46,10 @@ func Test_Getlog_Filter(t *testing.T) {
 		t.Error("'oldest' not present in json")
 	}
 
-	filter = "bogon"
-	_, err = getLogCommand(LogArgs{limit: "10"}) // do not capture body here, it's empty, I just care about error
-	filter = initialFilter                 // reset because this would otherwise carry across tests
+	initialFilter := TestLogArgsInstance.filter
+	TestLogArgsInstance.filter = "bogon"
+	_, err = getLogCommand(TestLogArgsInstance) // do not capture body here, it's empty, I just care about error
+	TestLogArgsInstance.filter = initialFilter  // reset because this would otherwise carry across tests
 
 	if err == nil {
 		t.Error("tried getLogCommand with invalid filter and didn't get error")
@@ -58,9 +58,10 @@ func Test_Getlog_Filter(t *testing.T) {
 }
 func Test_Getlog_Search(t *testing.T) {
 
-	const searchQuery string = "example.com" // doesn't matter what goes here, even with empty results I still get valid json.  TODO I'm not actually passing this in to search with!
 	var err error
-	body, err := getLogCommand(LogArgs{limit: "10"})
+
+	TestLogArgsInstance.search = "example.com"
+	body, err := getLogCommand(TestLogArgsInstance)
 
 	if err != nil {
 		t.Error("got non-fill error testing getLogCommand")
