@@ -24,6 +24,7 @@ var getlogCmd = &cobra.Command{
 }
 
 var filter string
+var searchQuery string
 var allowedFilters = []string{
 	"all", "filtered", "blocked",
 	"blocked_safebrowsing", "blocked_parental",
@@ -74,6 +75,10 @@ func getLogCommand(args []string) (bytes.Buffer, error) {
 		return indentedJson, fmt.Errorf("filter value %s not allowed", filter)
 	}
 
+	if len(searchQuery) > 0 {
+		queryValues.Add("search", searchQuery)
+	}
+
 	// TODO: add
 	// response_status: all, filtered, blocked, blocked_safebrowsing, blocked_parental, whitelisted, rewritten, safe_search, processed
 	// kinda works but I can pick only one and they don't quite match up with what the gui lets me pick
@@ -91,10 +96,6 @@ func getLogCommand(args []string) (bytes.Buffer, error) {
 		URL:    baseURL,
 	}
 
-	// if len(args) > 0 {
-	// 	queryValues.Add("limit", args[0])
-	// }
-
 	body, err := common.SendCommand(statusQuery)
 	if err != nil {
 		return indentedJson, err
@@ -108,5 +109,6 @@ func getLogCommand(args []string) (bytes.Buffer, error) {
 func init() {
 	rootCmd.AddCommand(getlogCmd)
 	getlogCmd.Flags().StringVarP(&filter, "filter", "", "all", fmt.Sprintf("one of: %#v", allowedFilters))
+	getlogCmd.Flags().StringVarP(&searchQuery, "search", "", "", "string to search for in logs.")
 
 }

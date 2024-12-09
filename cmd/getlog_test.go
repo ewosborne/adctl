@@ -36,3 +36,14 @@ func Test_Getlog_Filter(t *testing.T) {
 		t.Error("tried getLogCommand with invalid filter and didn't get error")
 	}
 }
+func Test_Getlog_Search(t *testing.T) {
+	// TODO shoudl really be more comprehensive than just this
+
+	searchQuery = "netflix.com"
+	var err error
+	_, err = getLogCommand([]string{"10"})
+
+	if err != nil {
+		t.Errorf("got non-nil error testing getLogCommand for %s", searchQuery)
+	}
+}
