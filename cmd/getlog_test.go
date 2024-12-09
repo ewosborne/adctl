@@ -13,7 +13,8 @@ type ValidQueryResult struct {
 
 func Test_Getlog(t *testing.T) {
 	// test only a small log thing
-	log, err := getLogCommand([]string{"10"})
+	fmt.Printf("in test_getlog with %+v\n", LogArgsInstance)
+	log, err := getLogCommand(LogArgsInstance)
 
 	if err != nil {
 		t.Error("error getting getLogCommand", err)
@@ -27,10 +28,11 @@ func Test_Getlog(t *testing.T) {
 
 func Test_Getlog_Filter(t *testing.T) {
 	// test with an allowed and disallowed filter.
+	// filter comes from the variable declared as a flag
 	initialFilter := filter
 	filter = "all"
 	var err error
-	body, err := getLogCommand([]string{"10"})
+	body, err := getLogCommand(LogArgsInstance)
 
 	if err != nil {
 		t.Error("error getting getLogCommand with valid filter", err)
@@ -46,7 +48,7 @@ func Test_Getlog_Filter(t *testing.T) {
 	}
 
 	filter = "bogon"
-	_, err = getLogCommand([]string{"10"}) // do not capture body here, it's empty, I just care about error
+	_, err = getLogCommand(LogArgs{limit: "10"}) // do not capture body here, it's empty, I just care about error
 	filter = initialFilter                 // reset because this would otherwise carry across tests
 
 	if err == nil {
@@ -56,9 +58,9 @@ func Test_Getlog_Filter(t *testing.T) {
 }
 func Test_Getlog_Search(t *testing.T) {
 
-	var searchQuery string = "example.com" // doesn't matter what goes here, even with empty results I still get valid json
+	const searchQuery string = "example.com" // doesn't matter what goes here, even with empty results I still get valid json.  TODO I'm not actually passing this in to search with!
 	var err error
-	body, err := getLogCommand([]string{"10"})
+	body, err := getLogCommand(LogArgs{limit: "10"})
 
 	if err != nil {
 		t.Error("got non-fill error testing getLogCommand")
