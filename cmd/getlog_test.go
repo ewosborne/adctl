@@ -42,7 +42,7 @@ func Test_Getlog_Filter(t *testing.T) {
 
 }
 func Test_Getlog_Search(t *testing.T) {
-	// TODO shoudl really be more comprehensive than just this
+	// TODO should really be more comprehensive than just this
 
 	searchQuery = "netflix.com"
 	var err error
