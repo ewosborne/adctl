@@ -55,10 +55,8 @@ func Test_Getlog_Filter(t *testing.T) {
 
 }
 func Test_Getlog_Search(t *testing.T) {
-	// TODO should really be more comprehensive than just this.  This test will pass even with a bogus name because all I'm looking for is
-	//  a successful return and even with no domain name I still get 'data' and 'oldest'.
 
-	searchQuery = "netflix.com"
+	var searchQuery string = "example.com" // doesn't matter what goes here, even with empty results I still get valid json
 	var err error
 	body, err := getLogCommand([]string{"10"})
 

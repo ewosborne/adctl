@@ -48,6 +48,7 @@ func printLog(args []string) error {
 	return nil
 }
 
+// TODO: this is all hosed up and args should be a map or something, I think.  need to make sure I really understand how this works because it doesn't test out right.
 func getLogCommand(args []string) (bytes.Buffer, error) {
 	var indentedJson bytes.Buffer
 
