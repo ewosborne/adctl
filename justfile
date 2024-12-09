@@ -12,7 +12,7 @@ coverage:
 run *ARGS: build
     ./$bin {{ ARGS }}
 
-test: build
+test: mac
     go test ./cmd -test.v
 
 testAll: test testCLI
@@ -50,9 +50,9 @@ windows:
     GOOS=windows GOARCH=amd64  go build -o build/adctl-amd64.exe -ldflags "-s -w" . 
     GOOS=windows GOARCH=386  go build -o build/adctl-386.exe -ldflags "-s -w" . 
 
-build: fmt mac windows
+build: fmt mac
 
-multibuild: fmt mac linux
+multibuild: fmt mac linux windows
 
 clean:
     go clean -testcache
