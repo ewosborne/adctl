@@ -104,7 +104,6 @@ func getLogCommand(queryLogs LogArgs) (bytes.Buffer, error) {
 		URL:    baseURL,
 	}
 
-
 	body, err := common.SendCommand(statusQuery)
 	if err != nil {
 		return indentedJson, err

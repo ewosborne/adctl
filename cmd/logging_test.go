@@ -83,8 +83,6 @@ func checkBufferForJson(body bytes.Buffer) (bool, error) {
 	// marshal it and return whether 'oldest' is presetn
 	// fail otherwise
 
-	//var err error
-	//tmpJson := make(map[string]string)
 	tmpJson := ValidQueryResult{}
 
 	err := json.Unmarshal(body.Bytes(), &tmpJson)
@@ -93,7 +91,7 @@ func checkBufferForJson(body bytes.Buffer) (bool, error) {
 	}
 
 	if len(tmpJson.Oldest) < 1 {
-		return false, fmt.Errorf("json.oldest is weird")
+		return false, fmt.Errorf("json.oldest is empty")
 	}
 	return true, nil
 
