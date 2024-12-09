@@ -10,6 +10,7 @@ import (
 	"fmt"
 	"math"
 	"net/url"
+	"slices"
 
 	"github.com/ewosborne/adctl/common"
 	"github.com/spf13/cobra"
@@ -20,6 +21,13 @@ var getlogCmd = &cobra.Command{
 	Use:   "getlog",
 	Short: "Get logs. Optional length parameter, 0 == MaxUint32 log length.",
 	RunE:  GetLogCmdE,
+}
+
+var filter string
+var allowedFilters = []string{
+	"all", "filtered", "blocked",
+	"blocked_safebrowsing", "blocked_parental",
+	"whitelisted", "rewritten", "safe_search", "processed",
 }
 
 func GetLogCmdE(cmd *cobra.Command, args []string) error {
@@ -57,6 +65,15 @@ func getLogCommand(args []string) (bytes.Buffer, error) {
 		}
 	}
 
+	//fmt.Println("YOU WANT FILTER", filter)
+	// TODO: check allowedFilters and see if filter is in there
+	idx := slices.Index(allowedFilters, filter)
+	if idx >= 0 {
+		queryValues.Add("response_status", filter)
+	} else {
+		return indentedJson, fmt.Errorf("filter value %s not allowed", filter)
+	}
+
 	// TODO: add
 	// response_status: all, filtered, blocked, blocked_safebrowsing, blocked_parental, whitelisted, rewritten, safe_search, processed
 	// kinda works but I can pick only one and they don't quite match up with what the gui lets me pick
@@ -90,4 +107,6 @@ func getLogCommand(args []string) (bytes.Buffer, error) {
 
 func init() {
 	rootCmd.AddCommand(getlogCmd)
+	getlogCmd.Flags().StringVarP(&filter, "filter", "", "all", fmt.Sprintf("one of: %v", allowedFilters))
+
 }
