@@ -79,16 +79,6 @@ func getLogCommand(args []string) (bytes.Buffer, error) {
 		queryValues.Add("search", searchQuery)
 	}
 
-	// TODO: add
-	// response_status: all, filtered, blocked, blocked_safebrowsing, blocked_parental, whitelisted, rewritten, safe_search, processed
-	// kinda works but I can pick only one and they don't quite match up with what the gui lets me pick
-
-	//queryValues.Add("response_status", "blocked")
-
-	// search: < arbitrary string > but it's not working, either I'm doing something wrong or it's just busted.
-	//queryValues.Add("search:", "192.168.1.182")
-	//queryValues.Add("search:", "newrelic.com")
-
 	baseURL.RawQuery = queryValues.Encode()
 
 	statusQuery := common.CommandArgs{
