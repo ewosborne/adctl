@@ -2,6 +2,7 @@ package cmd
 
 import (
 	"encoding/json"
+	"fmt"
 	"testing"
 )
 
@@ -21,6 +22,7 @@ func Test_Getlog(t *testing.T) {
 
 func Test_Getlog_Filter(t *testing.T) {
 	// test with an allowed and disallowed filter.
+	initialFilter := filter
 	filter = "all"
 	var err error
 	_, err = getLogCommand([]string{"10"})
@@ -35,6 +37,9 @@ func Test_Getlog_Filter(t *testing.T) {
 	if err == nil {
 		t.Error("tried getLogCommand with invalid filter and didn't get error")
 	}
+
+	filter = initialFilter // need to do this to reset so
+
 }
 func Test_Getlog_Search(t *testing.T) {
 	// TODO shoudl really be more comprehensive than just this
@@ -44,6 +49,7 @@ func Test_Getlog_Search(t *testing.T) {
 	_, err = getLogCommand([]string{"10"})
 
 	if err != nil {
-		t.Errorf("got non-nil error testing getLogCommand for %s", searchQuery)
+		t.Error("got non-fill error testing getLogCommand")
+		fmt.Println(err)
 	}
 }
