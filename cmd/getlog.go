@@ -57,10 +57,7 @@ func GetLogCmdE(cmd *cobra.Command, args []string) error {
 
 	fmt.Println("args are", args)
 
-	// massage to maxuint32 but cross-platform
-	if args[0] == "0" {
-		args[0] = fmt.Sprintf("%v", uint32(math.MaxUint32))
-	}
+	populateLogArgs(args)
 
 	return printLog(LogArgsInstance)
 }
@@ -126,6 +123,5 @@ func init() {
 	rootCmd.AddCommand(getlogCmd)
 	getlogCmd.Flags().StringVarP(&filter, "filter", "", "all", fmt.Sprintf("one of: %#v", allowedFilters))
 	getlogCmd.Flags().StringVarP(&searchQuery, "search", "", "", "string to search for in logs.")
-	populateLogArgs(args)
 
 }
