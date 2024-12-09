@@ -107,6 +107,6 @@ func getLogCommand(args []string) (bytes.Buffer, error) {
 
 func init() {
 	rootCmd.AddCommand(getlogCmd)
-	getlogCmd.Flags().StringVarP(&filter, "filter", "", "all", fmt.Sprintf("one of: %v", allowedFilters))
+	getlogCmd.Flags().StringVarP(&filter, "filter", "", "all", fmt.Sprintf("one of: %#v", allowedFilters))
 
 }

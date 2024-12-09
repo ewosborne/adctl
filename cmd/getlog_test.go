@@ -18,3 +18,5 @@ func Test_Getlog(t *testing.T) {
 		t.Error("invalid json log", err)
 	}
 }
+
+// TODO: add test for filter
