@@ -41,11 +41,19 @@ type LogArgs struct {
 var LogArgsInstance LogArgs
 
 func populateLogArgs(args []string) {
-	if args[0] == "0" {
-		args[0] = fmt.Sprintf("%v", uint32(math.MaxUint32))
+
+	// TODO: all this arg checking is a hack.
+	if len(args) == 1 {
+		if args[0] == "0" {
+			args[0] = fmt.Sprintf("%v", uint32(math.MaxUint32))
+		}
 	}
 
-	LogArgsInstance = LogArgs{limit: args[0], filter: filter, search: searchQuery}
+	LogArgsInstance = LogArgs{filter: filter, search: searchQuery}
+
+	if len(args) != 0 {
+		LogArgsInstance.limit = args[0]
+	}
 	fmt.Printf("args struct %+v\n", LogArgsInstance)
 	fmt.Println("search is", LogArgsInstance.search, "done", len(LogArgsInstance.search))
 
@@ -53,6 +61,10 @@ func populateLogArgs(args []string) {
 
 func GetLogCmdE(cmd *cobra.Command, args []string) error {
 
+	// TODO this is a hack
+	// if len(args) == 0 {
+	// 	args = append(args, "500")
+	// }
 	fmt.Println("args are", args)
 
 	populateLogArgs(args)
