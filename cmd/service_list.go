@@ -88,6 +88,8 @@ func GetServiceList(kind string) (bytes.Buffer, error) {
 		then show names of blocked (maybe just []string)
 
 		might want to be able to toggle service blocks on and off via cli, that'd be cool.
+
+		I should rethink this whole CLI hierarchy though.
 	*/
 
 	switch kind {

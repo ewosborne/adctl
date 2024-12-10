@@ -10,3 +10,21 @@
 * go over all method and data structure and command names and clean them up
 
 
+
+
+service blocking cli
+
+
+adctl service {block <name> |unblock <name> |listBlocked|listAll}
+
+functions
+
+blockService calls the POST endpoint to block a service
+ditto unblockService (maybe same function with a toggle?)
+listAllServices is a pretty basic thing I need anyways so keep it separate
+listBlockedServices does what it says
+
+same division: command -> print -> execute
+
+
+
