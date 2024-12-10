@@ -14,21 +14,41 @@ import (
 var listAllCmd = &cobra.Command{
 	Use:   "listAll",
 	Short: "List all services AGH knows about",
-	Run: func(cmd *cobra.Command, args []string) {
-		fmt.Println("listAll called")
-	},
+	RunE:  ListAllCmdE,
+}
+
+// TODO: do this one first since it's importantest.
+
+func ListAllCmdE(cmd *cobra.Command, args []string) error {
+
+	ret, err := GetAllServices()
+	if err != nil {
+		return fmt.Errorf("error calling GetAllServices: %w", err)
+	}
+
+	PrintAllServices(ret)
+
+	return nil
+}
+
+func GetAllServices() (map[string]string, error) {
+	var ret map[string]string
+
+	/*
+		TODO: get services, populate map with k=ID, v=Name
+		and also maybe Name:ID ?  or two maps?  let's try one.
+	*/
+
+	return ret, nil
+}
+
+func PrintAllServices(data map[string]string) error {
+
+	fmt.Print("in PrintAllServices")
+	fmt.Print(data)
+	return nil
 }
 
 func init() {
 	serviceCmd.AddCommand(listAllCmd)
-
-	// Here you will define your flags and configuration settings.
-
-	// Cobra supports Persistent Flags which will work for this command
-	// and all subcommands, e.g.:
-	// listAllCmd.PersistentFlags().String("foo", "", "A help for foo")
-
-	// Cobra supports local flags which will only run when this command
-	// is called directly, e.g.:
-	// listAllCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
 }
