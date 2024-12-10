@@ -5,6 +5,7 @@ No header.
 package cmd
 
 import (
+	"encoding/json"
 	"fmt"
 
 	"github.com/ewosborne/adctl/common"
@@ -27,11 +28,11 @@ import (
 */
 
 type Service struct {
-	ID   string
-	Name string
+	ID   string `json:"id"`
+	Name string `json:"name"`
 }
 type AllServices struct {
-	AllServices []Service
+	AllServices []Service `json:"blocked_services"`
 }
 
 // listAllCmd represents the listAll command
@@ -45,18 +46,18 @@ var listAllCmd = &cobra.Command{
 
 func ListAllCmdE(cmd *cobra.Command, args []string) error {
 
-	ret, err := GetAllServices()
+	err := PrintAllServices()
 	if err != nil {
-		return fmt.Errorf("error calling GetAllServices: %w", err)
+		return fmt.Errorf("error somewhere %w", err)
 	}
-
-	PrintAllServices(ret)
 
 	return nil
 }
 
-func GetAllServices() (map[string]string, error) {
-	var ret map[string]string
+func GetAllServices() (map[string]string, map[string]string, error) {
+
+	var id2name = make(map[string]string)
+	var name2id = make(map[string]string)
 
 	/*
 		TODO: get services, populate map with k=ID, v=Name
@@ -74,7 +75,7 @@ func GetAllServices() (map[string]string, error) {
 
 	baseURL, err := common.GetBaseURL()
 	if err != nil {
-		return ret, err
+		return id2name, name2id, err
 	}
 	baseURL.Path = "/control/blocked_services/all"
 
@@ -85,19 +86,40 @@ func GetAllServices() (map[string]string, error) {
 
 	body, err := common.SendCommand(statusQuery)
 	if err != nil {
-		return ret, err
+		return id2name, name2id, err
 	}
 
-	// TODO: marshal body into something that pulls out name and ID
+	// TODO: marshal body into something that pulls out name and ID.  AllServices{ Service } however I do that.
 
-	fmt.Println(string(body))
-	return ret, nil
+	// this is a very confusing mess of nested structs
+
+	var s AllServices
+	json.Unmarshal(body, &s)
+
+	for _, x := range s.AllServices {
+		//fmt.Printf("ID: %s, Name: %s\n", x.ID, x.Name)
+		id2name[x.ID] = x.Name
+		name2id[x.Name] = x.ID
+
+	}
+	//fmt.Printf("%+v\n", s)
+
+	return id2name, name2id, nil
 }
 
-func PrintAllServices(data map[string]string) error {
+func PrintAllServices() error {
 
 	fmt.Print("in PrintAllServices")
-	fmt.Print(data)
+	_, name2id, err := GetAllServices()
+
+	if err != nil {
+		return err
+	}
+
+	for k, v := range name2id {
+		fmt.Println("Name:", k, "ID:", v)
+	}
+
 	return nil
 }
 
