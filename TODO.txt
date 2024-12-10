@@ -1,11 +1,12 @@
-* add /filtering/check_host and /filtering/refresh support
+
 * parental, safesearch, safebrowsing support
-* stats, blocked services support
+* stats, blocked services support (/blocked_services/update)
+
 * TUI?
 
 * debug flag
 * verbose - similar to debug.
 * use swagger api generated code?
-* go over all method and data structure names and clean them up
+* go over all method and data structure and command names and clean them up
 
 
