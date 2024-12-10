@@ -45,8 +45,8 @@ func ServiceListCmdE(cmd *cobra.Command, args []string) error {
 
 	// maybe here's where we handle --all or --blocked flags?
 
-	fmt.Println("all flag", all_services)
-	fmt.Println("blocked flag", blocked_services)
+	//fmt.Println("all flag", all_services)
+	//fmt.Println("blocked flag", blocked_services)
 
 	var flagStr string
 
@@ -59,7 +59,7 @@ func ServiceListCmdE(cmd *cobra.Command, args []string) error {
 		return fmt.Errorf("something is wrong with service flags")
 	}
 
-	fmt.Println("service flags", flagStr)
+	//fmt.Println("service flags", flagStr)
 	body, err := GetServiceList(flagStr)
 
 	_ = body
