@@ -19,5 +19,6 @@ func Test_ListBlocked(t *testing.T) {
 
 func Test_Update(t *testing.T) {
 	// TODO I'm not sure what to do here
+	t.Skip()
 
 }

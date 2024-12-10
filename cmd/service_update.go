@@ -94,7 +94,7 @@ func updateServices() error {
 	requestBody["ids"] = blocked.IDs
 	requestBody["schedule"] = blocked.Schedule
 
-	fmt.Println("going to update with", requestBody)
+	//fmt.Println("going to update with", requestBody)
 
 	// put it all together
 	enableQuery := common.CommandArgs{
