@@ -32,7 +32,8 @@ func ListBlockedCmdE(cmd *cobra.Command, args []string) error {
 }
 
 type AllBlockedServices struct {
-	IDs []string `json:"ids"`
+	Schedule map[string]any `json:"schedule"`
+	IDs      []string       `json:"ids"`
 }
 
 func GetBlockedServices() (AllBlockedServices, error) {
@@ -87,6 +88,7 @@ func PrintBlockedServices() error {
 			fmt.Println("svc blocked", allServices.ID2Name[x])
 		}
 	}
+
 	return nil
 }
 

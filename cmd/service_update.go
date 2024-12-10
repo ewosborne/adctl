@@ -81,9 +81,6 @@ func updateServices() error {
 
 	blocked.IDs = unique(newlist)
 
-	//fmt.Println("merged list", blocked.IDs) // TODO: make this unique.  map[string]bool and all that.
-
-	// just submit it.
 	// TODO: what about schedule?  skip for now but what if it comes down with a schedule and I don't push one up?
 
 	baseURL, err := common.GetBaseURL()
@@ -95,7 +92,9 @@ func updateServices() error {
 
 	var requestBody = make(map[string]any)
 	requestBody["ids"] = blocked.IDs
-	//requestBody["ids"] = []string{"yy", "4chan"}
+	requestBody["schedule"] = blocked.Schedule
+
+	fmt.Println("going to update with", requestBody)
 
 	// put it all together
 	enableQuery := common.CommandArgs{
@@ -104,7 +103,6 @@ func updateServices() error {
 		RequestBody: requestBody,
 	}
 
-	//fmt.Println("sending", enableQuery)
 	// don't care about body here
 	_, err = common.SendCommand(enableQuery)
 	if err != nil {
