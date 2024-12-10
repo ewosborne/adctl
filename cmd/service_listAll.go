@@ -35,6 +35,11 @@ type AllServices struct {
 	AllServices []Service `json:"blocked_services"`
 }
 
+type ServiceMap struct {
+	ID2Name map[string]string
+	Name2ID map[string]string
+}
+
 // listAllCmd represents the listAll command
 var listAllCmd = &cobra.Command{
 	Use:   "listAll",
@@ -54,10 +59,14 @@ func ListAllCmdE(cmd *cobra.Command, args []string) error {
 	return nil
 }
 
-func GetAllServices() (map[string]string, map[string]string, error) {
+func GetAllServices() (ServiceMap, error) {
 
-	var id2name = make(map[string]string)
-	var name2id = make(map[string]string)
+	ret := ServiceMap{}
+	ret.ID2Name = make(map[string]string)
+	ret.Name2ID = make(map[string]string)
+
+	id2name := ret.ID2Name
+	name2id := ret.Name2ID
 
 	/*
 		TODO: get services, populate map with k=ID, v=Name
@@ -75,7 +84,7 @@ func GetAllServices() (map[string]string, map[string]string, error) {
 
 	baseURL, err := common.GetBaseURL()
 	if err != nil {
-		return id2name, name2id, err
+		return ret, err
 	}
 	baseURL.Path = "/control/blocked_services/all"
 
@@ -86,7 +95,7 @@ func GetAllServices() (map[string]string, map[string]string, error) {
 
 	body, err := common.SendCommand(statusQuery)
 	if err != nil {
-		return id2name, name2id, err
+		return ret, err
 	}
 
 	// TODO: marshal body into something that pulls out name and ID.  AllServices{ Service } however I do that.
@@ -104,13 +113,16 @@ func GetAllServices() (map[string]string, map[string]string, error) {
 	}
 	//fmt.Printf("%+v\n", s)
 
-	return id2name, name2id, nil
+	return ret, nil
 }
 
 func PrintAllServices() error {
 
 	fmt.Print("in PrintAllServices")
-	_, name2id, err := GetAllServices()
+	smap, err := GetAllServices()
+	fmt.Println("also")
+	name2id := smap.Name2ID
+	fmt.Println("heere")
 
 	if err != nil {
 		return err
