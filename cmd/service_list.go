@@ -81,6 +81,15 @@ func GetServiceList(kind string) (bytes.Buffer, error) {
 		return ret, err
 	}
 
+	/*
+		TODO:
+		first call GetBlockedServiceList to get IDs of blocked
+		then call GetAllServiceList to get k/v map[string]string  ID to Name, if there's anything blocked.
+		then show names of blocked (maybe just []string)
+
+		might want to be able to toggle service blocks on and off via cli, that'd be cool.
+	*/
+
 	switch kind {
 	case "all":
 		baseURL.Path = "/control/blocked_services/all"
@@ -99,6 +108,20 @@ func GetServiceList(kind string) (bytes.Buffer, error) {
 	}
 
 	//fmt.Println(string(body))
+
+	/* TODO: ok here's some design thoughts
+
+	calling the all endpoint gets K/V of all services, ID and Name
+	calling the blocked ones get ID of blocked ones
+
+	maybe call the all endpoint and get everything just to get ID/name mapping
+		which I want as a map[string]string
+	then call blocked to get blocked IDs
+	then show blocked names?
+
+	also need to allow for toggle later on.
+
+	*/
 
 	switch kind {
 	case "all":
