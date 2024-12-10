@@ -13,7 +13,7 @@ import (
 // rootCmd represents the base command when called without any subcommands
 var rootCmd = &cobra.Command{
 	Use:     "adctl",
-	Version: "1.0.0",
+	Version: "0.5.0",
 }
 
 // Execute adds all child commands to the root command and sets flags appropriately.
