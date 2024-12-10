@@ -61,11 +61,9 @@ func populateLogArgs(args []string) {
 
 func GetLogCmdE(cmd *cobra.Command, args []string) error {
 
-	// TODO this is a hack
-	// if len(args) == 0 {
-	// 	args = append(args, "500")
-	// }
-	fmt.Println("args are", args)
+
+	//fmt.Println("args are", args)
+
 
 	populateLogArgs(args)
 

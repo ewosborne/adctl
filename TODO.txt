@@ -1,12 +1,15 @@
 
 * parental, safesearch, safebrowsing support
-* stats, blocked services support (/blocked_services/update)
+* tests of all the blocking and unblocking.
+
 
 * TUI?
 
 * debug flag
 * verbose - similar to debug.
-* use swagger api generated code?
 * go over all method and data structure and command names and clean them up
+<<<<<<< HEAD
 
 * add a test for missing args on getlogs since that caused a crash
+=======
+>>>>>>> services
