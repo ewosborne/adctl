@@ -30,7 +30,6 @@ func CheckFilterCmdE(cmd *cobra.Command, args []string) error {
 	}
 
 	cfa := CheckFilterArgs{name: args[0]}
-	fmt.Printf("checkfilter called %+v\n", cfa)
 
 	body, err := GetFilter(cfa)
 	if err != nil {
@@ -49,11 +48,13 @@ func GetFilter(cfa CheckFilterArgs) (bytes.Buffer, error) {
 
 	baseURL, err := common.GetBaseURL()
 	if err != nil {
-		return indentedJson, err
+		return ret, err
 	}
 	baseURL.Path = "/control/filtering/check_host"
 	queryValues := url.Values{}
 	queryValues.Add("name", cfa.name)
+
+	baseURL.RawQuery = queryValues.Encode()
 
 	statusQuery := common.CommandArgs{
 		Method: "GET",
@@ -66,31 +67,16 @@ func GetFilter(cfa CheckFilterArgs) (bytes.Buffer, error) {
 	}
 
 	json.Indent(&ret, body, "", "  ")
+
 	return ret, nil
-
-	// serialize body into Status and return appropriately
-	json.Unmarshal(body, &s)
-
-	return s, nil
-
-	return indentedJson, nil
 }
 
-func PrintFilter(bytes.Buffer) error {
-	// unpack into json and print
+func PrintFilter(body bytes.Buffer) error {
+	fmt.Println(body.String())
 	return nil
 }
 
 func init() {
 	rootCmd.AddCommand(checkfilterCmd)
 
-	// Here you will define your flags and configuration settings.
-
-	// Cobra supports Persistent Flags which will work for this command
-	// and all subcommands, e.g.:
-	// checkfilterCmd.PersistentFlags().String("foo", "", "A help for foo")
-
-	// Cobra supports local flags which will only run when this command
-	// is called directly, e.g.:
-	// checkfilterCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
 }
