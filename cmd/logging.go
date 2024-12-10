@@ -46,14 +46,14 @@ func populateLogArgs(args []string) {
 	}
 
 	LogArgsInstance = LogArgs{limit: args[0], filter: filter, search: searchQuery}
-	fmt.Printf("args struct %+v\n", LogArgsInstance)
-	fmt.Println("search is", LogArgsInstance.search, "done", len(LogArgsInstance.search))
+	//fmt.Printf("args struct %+v\n", LogArgsInstance)
+	//fmt.Println("search is", LogArgsInstance.search, "done", len(LogArgsInstance.search))
 
 }
 
 func GetLogCmdE(cmd *cobra.Command, args []string) error {
 
-	fmt.Println("args are", args)
+	//fmt.Println("args are", args)
 
 	populateLogArgs(args)
 
