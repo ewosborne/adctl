@@ -29,6 +29,10 @@ func unique(list []string) []string {
 
 func UpdateServiceCmdE(cmd *cobra.Command, args []string) error {
 
+	// TODO hack
+	if len(toBlock) == 0 && len(toPermit) == 0 {
+		return fmt.Errorf("need either permit or blocked flag")
+	}
 	// first tidy up
 	toBlock = unique(toBlock)
 	toPermit = unique(toPermit)
