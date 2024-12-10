@@ -40,6 +40,13 @@ type ServiceMap struct {
 	Name2ID map[string]string
 }
 
+func NewServiceMap() ServiceMap {
+	return ServiceMap{
+		ID2Name: make(map[string]string),
+		Name2ID: make(map[string]string),
+	}
+}
+
 // listAllCmd represents the listAll command
 var listAllCmd = &cobra.Command{
 	Use:   "listAll",
@@ -61,9 +68,7 @@ func ListAllCmdE(cmd *cobra.Command, args []string) error {
 
 func GetAllServices() (ServiceMap, error) {
 
-	ret := ServiceMap{}
-	ret.ID2Name = make(map[string]string)
-	ret.Name2ID = make(map[string]string)
+	ret := NewServiceMap()
 
 	id2name := ret.ID2Name
 	name2id := ret.Name2ID
