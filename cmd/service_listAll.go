@@ -7,6 +7,9 @@ package cmd
 import (
 	"encoding/json"
 	"fmt"
+	"maps"
+	"slices"
+	"sort"
 
 	"github.com/ewosborne/adctl/common"
 	"github.com/spf13/cobra"
@@ -73,18 +76,6 @@ func GetAllServices() (ServiceMap, error) {
 	id2name := ret.ID2Name
 	name2id := ret.Name2ID
 
-	/*
-		TODO: get services, populate map with k=ID, v=Name
-		and also maybe Name:ID ?  or two maps?  let's try one.
-
-		endpoint is /control/blocked_services/all
-
-		* get the data
-		* marshal it into a map, I guess.  map[string]any
-		* walk that thing and pull out what I want into a more structured setup?
-
-	*/
-
 	// get the data
 
 	baseURL, err := common.GetBaseURL()
@@ -116,27 +107,25 @@ func GetAllServices() (ServiceMap, error) {
 		name2id[x.Name] = x.ID
 
 	}
-	//fmt.Printf("%+v\n", s)
 
 	return ret, nil
 }
 
 func PrintAllServices() error {
 
-	fmt.Print("in PrintAllServices")
 	smap, err := GetAllServices()
-	fmt.Println("also")
 	name2id := smap.Name2ID
-	fmt.Println("heere")
 
 	if err != nil {
 		return err
 	}
 
-	for k, v := range name2id {
-		fmt.Println("Name:", k, "ID:", v)
-	}
+	s := slices.Collect(maps.Keys(name2id))
+	sort.Strings(s)
 
+	for _, k := range s {
+		fmt.Printf("%s:%s\n", k, name2id[k])
+	}
 	return nil
 }
 
