@@ -9,4 +9,4 @@
 * use swagger api generated code?
 * go over all method and data structure and command names and clean them up
 
-
+* add a test for missing args on getlogs since that caused a crash
