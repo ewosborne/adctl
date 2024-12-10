@@ -8,8 +8,10 @@ import (
 	"encoding/json"
 	"fmt"
 	"maps"
+	"os"
 	"slices"
 	"sort"
+	"text/tabwriter"
 
 	"github.com/ewosborne/adctl/common"
 	"github.com/spf13/cobra"
@@ -102,7 +104,6 @@ func GetAllServices() (ServiceMap, error) {
 	json.Unmarshal(body, &s)
 
 	for _, x := range s.AllServices {
-		//fmt.Printf("ID: %s, Name: %s\n", x.ID, x.Name)
 		id2name[x.ID] = x.Name
 		name2id[x.Name] = x.ID
 
@@ -123,8 +124,13 @@ func PrintAllServices() error {
 	s := slices.Collect(maps.Keys(name2id))
 	sort.Strings(s)
 
+	w := tabwriter.NewWriter(os.Stdout, 0, 0, 1, ' ', 0)
+	defer w.Flush() // TODO I can't decide if this is dumb or not
+	fmt.Fprintf(w, "Name\tID\n")
+	fmt.Fprintf(w, "====\t==\n")
+
 	for _, k := range s {
-		fmt.Printf("%s:%s\n", k, name2id[k])
+		fmt.Fprintf(w, "%s\t%s\n", k, name2id[k])
 	}
 	return nil
 }
