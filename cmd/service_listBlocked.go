@@ -78,8 +78,13 @@ func PrintBlockedServices() error {
 	if len(s.IDs) == 0 {
 		fmt.Println("no services blocked")
 	} else {
+		allServices, err := GetAllServices()
+		if err != nil {
+			return fmt.Errorf("error getting all services: %w", err)
+		}
 		for _, x := range s.IDs {
-			fmt.Println("svc blocked", x)
+			// TODO return service name, not id.
+			fmt.Println("svc blocked", allServices.ID2Name[x])
 		}
 	}
 	return nil

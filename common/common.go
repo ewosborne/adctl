@@ -91,7 +91,7 @@ func SendCommand(ca CommandArgs) ([]byte, error) {
 	var err error
 
 	// turn params into json.  not sure if I can safely do this to all verbs.
-	if ca.Method == "POST" {
+	if ca.Method == "POST" || ca.Method == "PUT" {
 		jsonData, err = json.Marshal(ca.RequestBody)
 		if err != nil {
 			return nil, fmt.Errorf("error marshaling json: %w", err)

@@ -26,5 +26,10 @@ listBlockedServices does what it says
 
 same division: command -> print -> execute
 
+maybe <name> is a csv of names?
+  adctl service block <yy,yt,zz> 
+  
+
+
 
 
