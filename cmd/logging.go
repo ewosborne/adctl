@@ -54,16 +54,14 @@ func populateLogArgs(args []string) {
 	if len(args) != 0 {
 		LogArgsInstance.limit = args[0]
 	}
-	fmt.Printf("args struct %+v\n", LogArgsInstance)
-	fmt.Println("search is", LogArgsInstance.search, "done", len(LogArgsInstance.search))
+	// fmt.Printf("args struct %+v\n", LogArgsInstance)
+	// fmt.Println("search is", LogArgsInstance.search, "done", len(LogArgsInstance.search))
 
 }
 
 func GetLogCmdE(cmd *cobra.Command, args []string) error {
 
-
 	//fmt.Println("args are", args)
-
 
 	populateLogArgs(args)
 
