@@ -16,8 +16,6 @@
 1. clean up all commands to conform to the structure like new ones - no passing args[] or cmd.
  * done.
 
-
-
 2. tighten up cli keywords, make them clean and obvious.
 3. tests
 4. debugs and verbosity
