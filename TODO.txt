@@ -17,6 +17,35 @@
  * done.
 
 2. tighten up cli keywords, make them clean and obvious.
+
+Commands represent actions, Args are things and Flags are modifiers for those actions.
+The pattern to follow is APPNAME VERB NOUN --ADJECTIVE. or APPNAME COMMAND ARG --FLAG
+https://clig.dev/
+
+
+    * logging and print to stderr if I need to do any?
+    * clean up error formatting?
+    * command names: case?  words?  verbs vs nouns?  'cmd noun verb' seems to be it.
+    * exit codes? 0 on successful change, non-zero otherwise.
+    * confirmation messages - oneliners that things worked or failed.
+    * better help text - short and long.
+    * url in help text
+    * man page?  ick.  tools to generate it?
+    * outputs other than json?  gron?  https://github.com/maahsome/gron
+    * for flags, short and long versions.  
+      * allow/block vs permit/deny?  
+    * think real hard about when to have args over flags.  
+    *   service permit/deny all with confirmation?  or just don't do this?  or just disable but not enable all?
+    * what do 12factor apps do?
+    * adjust timeout for network call?  60sec?  pass via flag?
+    * dry run for changes? maybe just for service filters?
+    * .config/adctl?  viper can do this?  
+    * brew setup?
+    https://github.com/fatih/color for color output support
+    * list of services/IDs default to json but also have --table?
+    * pre-action status reponses, e.g. "toggling adblock status" before toggle done.
+
+
 3. tests
 4. debugs and verbosity
 5. general code tidiness.
