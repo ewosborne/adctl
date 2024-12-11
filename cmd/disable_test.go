@@ -5,7 +5,9 @@ import "testing"
 func TestDisable_Permanent(t *testing.T) {
 	// test cmd.enableCommand()
 
-	Status, err := disableCommand([]string{})
+	dTime := DisableTime{HasTimeout: false}
+
+	Status, err := disableCommand(dTime)
 	want := false
 
 	if err != nil {
@@ -21,7 +23,9 @@ func TestDisable_Permanent(t *testing.T) {
 func TestDisable_Temporary(t *testing.T) {
 	// test cmd.enableCommand()
 
-	Status, err := disableCommand([]string{"30s"})
+	dTime := DisableTime{HasTimeout: true, Duration: "30s"}
+
+	Status, err := disableCommand(dTime)
 	want := false
 
 	if err != nil {

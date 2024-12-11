@@ -19,6 +19,7 @@ var updateServiceCmd = &cobra.Command{
 	RunE:  UpdateServiceCmdE,
 }
 
+// populated as flags, see init()
 var toPermit []string
 var toBlock []string
 
@@ -33,13 +34,12 @@ func UpdateServiceCmdE(cmd *cobra.Command, args []string) error {
 	if len(toBlock) == 0 && len(toPermit) == 0 {
 		return fmt.Errorf("need either permit or blocked flag")
 	}
-	// first tidy up
+	// first tidy up.  should I wrap these in a struct? TODO
 	toBlock = unique(toBlock)
 	toPermit = unique(toPermit)
 
-	// fmt.Println("to block", toBlock)
-	// fmt.Println("to permit", toPermit)
-
+	// should I pass in toPermit and toBlock or leave them global here?
+	//   does passing them as args make testing easier? TODO
 	err := updateServices()
 	if err != nil {
 		return fmt.Errorf("error updating services %w", err)
@@ -48,23 +48,16 @@ func UpdateServiceCmdE(cmd *cobra.Command, args []string) error {
 	return nil
 }
 
-// TODO: rethink this.  maybe prepend '+' to services to block and '-' to unblock, do it in one command? also maybe support 'all'?
-//
-//	also TODO: think about service filter.  maybe just take what's there and keep it but don't change via cli. yeah, let's do that.
-//     or --block and --unblock but allow multiples? that seems more idiomatic.
-
 func updateServices() error {
 
+	// note that blocked has a schedule as well.  That just gets passed transparently through, I don't touch it.
 	blocked, err := GetBlockedServices()
 	if err != nil {
 		return fmt.Errorf("error calling GetBlockedServices %w", err)
 	}
 
-	// fmt.Println("currently blocked", blocked.IDs)
-	// fmt.Println("you want to block", toBlock)
-	// fmt.Println("you want to permit", toPermit)
-
-	// ...because I have no set primitives...
+	// take the list of currently blocked services, may be none.
+	//  add all new toBlock and then remove all toPermit
 	tmp := make(map[string]bool)
 	for _, s := range blocked.IDs {
 		tmp[s] = true
@@ -76,16 +69,14 @@ func updateServices() error {
 		tmp[s] = false
 	}
 
+	// turn service map back into the final list of services
 	newlist := []string{}
 	for k, v := range tmp {
 		if v == true {
 			newlist = append(newlist, k)
 		}
 	}
-
-	blocked.IDs = unique(newlist)
-
-	// TODO: what about schedule?  skip for now but what if it comes down with a schedule and I don't push one up?
+	blocked.IDs = newlist
 
 	baseURL, err := common.GetBaseURL()
 	if err != nil {

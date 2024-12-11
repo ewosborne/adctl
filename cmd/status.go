@@ -33,7 +33,7 @@ func StatusCmdE(cmd *cobra.Command, args []string) error {
 	return PrintStatus(s)
 }
 
-// statusCommand calls getStatus and prints something
+// statusCommand prints something intelligent about what's in status
 func PrintStatus(status Status) error {
 	// status, err := GetStatus()
 	// if err != nil {

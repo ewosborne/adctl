@@ -31,13 +31,17 @@ func CheckFilterCmdE(cmd *cobra.Command, args []string) error {
 
 	cfa := CheckFilterArgs{name: args[0]}
 
+	return PrintFilter(cfa)
+
+}
+
+func PrintFilter(cfa CheckFilterArgs) error {
 	body, err := GetFilter(cfa)
 	if err != nil {
 		return err
 	}
-
-	return PrintFilter(body)
-
+	fmt.Println(body.String())
+	return nil
 }
 
 func GetFilter(cfa CheckFilterArgs) (bytes.Buffer, error) {
@@ -69,11 +73,6 @@ func GetFilter(cfa CheckFilterArgs) (bytes.Buffer, error) {
 	json.Indent(&ret, body, "", "  ")
 
 	return ret, nil
-}
-
-func PrintFilter(body bytes.Buffer) error {
-	fmt.Println(body.String())
-	return nil
 }
 
 func init() {

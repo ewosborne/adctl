@@ -19,15 +19,33 @@ var disableCmd = &cobra.Command{
 	RunE:  DisableCmdE,
 }
 
-func DisableCmdE(cmd *cobra.Command, args []string) error {
-	return printDisable(args)
+type DisableTime struct {
+	Duration   string
+	HasTimeout bool
 }
 
-func printDisable(args []string) error {
+func DisableCmdE(cmd *cobra.Command, args []string) error {
+
+	var dTime = DisableTime{}
+
+	switch len(args) {
+	case 0:
+		dTime.HasTimeout = false
+	case 1:
+		dTime.HasTimeout = true
+		dTime.Duration = args[0]
+	default:
+		return fmt.Errorf("only one arg allowed for disable")
+	}
+
+	return printDisable(dTime)
+}
+
+func printDisable(dTime DisableTime) error {
 
 	var err error
 
-	status, err := disableCommand(args)
+	status, err := disableCommand(dTime)
 	if err != nil {
 		return err
 	}
@@ -38,17 +56,14 @@ func printDisable(args []string) error {
 
 }
 
-func disableCommand(args []string) (Status, error) {
+func disableCommand(dTime DisableTime) (Status, error) {
 
 	var err error
-	if len(args) == 0 {
-		// handle no time duration
-		err = common.AbleCommand(false, "")
-	} else if len(args) == 1 {
-		// handle time duration
-		err = common.AbleCommand(false, args[0])
+	
+	if dTime.HasTimeout {
+		err = common.AbleCommand(false, dTime.Duration)
 	} else {
-		return Status{}, fmt.Errorf("too many arguments to disableCommand: %v", len(args))
+		err = common.AbleCommand(false, "")
 	}
 
 	if err != nil {

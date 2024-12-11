@@ -38,32 +38,26 @@ type LogArgs struct {
 	search string
 }
 
-var LogArgsInstance LogArgs
+func GetLogCmdE(cmd *cobra.Command, args []string) error {
 
-func populateLogArgs(args []string) {
+	//populateLogArgs(args)
+	LogArgsInstance := LogArgs{filter: filter, search: searchQuery}
 
-	// TODO: all this arg checking is a hack.
-	if len(args) == 1 {
+	// if there are no args then do nothing
+	// if there's one arg it's either zero or it's not
+	//   if it's zero then bump it up but in a platform-specific way
+
+	switch len(args) {
+	case 0:
+		// do nothing
+	case 1:
 		if args[0] == "0" {
 			args[0] = fmt.Sprintf("%v", uint32(math.MaxUint32))
 		}
-	}
-
-	LogArgsInstance = LogArgs{filter: filter, search: searchQuery}
-
-	if len(args) != 0 {
 		LogArgsInstance.limit = args[0]
+	default:
+		return fmt.Errorf("too many args to GetLogCmdE: %v", len(args))
 	}
-	// fmt.Printf("args struct %+v\n", LogArgsInstance)
-	// fmt.Println("search is", LogArgsInstance.search, "done", len(LogArgsInstance.search))
-
-}
-
-func GetLogCmdE(cmd *cobra.Command, args []string) error {
-
-	//fmt.Println("args are", args)
-
-	populateLogArgs(args)
 
 	return printLog(LogArgsInstance)
 }

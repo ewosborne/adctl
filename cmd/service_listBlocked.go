@@ -19,7 +19,10 @@ var listBlockedCmd = &cobra.Command{
 	RunE:  ListBlockedCmdE,
 }
 
-// TODO: do this one first since it's importantest.
+type AllBlockedServices struct {
+	Schedule map[string]any `json:"schedule"`
+	IDs      []string       `json:"ids"`
+}
 
 func ListBlockedCmdE(cmd *cobra.Command, args []string) error {
 
@@ -31,9 +34,27 @@ func ListBlockedCmdE(cmd *cobra.Command, args []string) error {
 	return nil
 }
 
-type AllBlockedServices struct {
-	Schedule map[string]any `json:"schedule"`
-	IDs      []string       `json:"ids"`
+func PrintBlockedServices() error {
+
+	s, err := GetBlockedServices()
+
+	if err != nil {
+		return err
+	}
+
+	if len(s.IDs) == 0 {
+		fmt.Println("no services blocked")
+	} else {
+		allServices, err := GetAllServices()
+		if err != nil {
+			return fmt.Errorf("error getting all services: %w", err)
+		}
+		for _, x := range s.IDs {
+			fmt.Println("svc blocked", allServices.ID2Name[x])
+		}
+	}
+
+	return nil
 }
 
 func GetBlockedServices() (AllBlockedServices, error) {
@@ -58,38 +79,10 @@ func GetBlockedServices() (AllBlockedServices, error) {
 		return ret, err
 	}
 
-	// TODO: marshal body into something that pulls out name and ID.  AllServices{ Service } however I do that.
-
-	// this is a very confusing mess of nested structs
-
 	var s AllBlockedServices
 	json.Unmarshal(body, &s)
 
 	return s, nil
-}
-
-func PrintBlockedServices() error {
-
-	s, err := GetBlockedServices()
-
-	if err != nil {
-		return err
-	}
-
-	if len(s.IDs) == 0 {
-		fmt.Println("no services blocked")
-	} else {
-		allServices, err := GetAllServices()
-		if err != nil {
-			return fmt.Errorf("error getting all services: %w", err)
-		}
-		for _, x := range s.IDs {
-			// TODO return service name, not id.
-			fmt.Println("svc blocked", allServices.ID2Name[x])
-		}
-	}
-
-	return nil
 }
 
 func init() {

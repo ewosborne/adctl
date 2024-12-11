@@ -40,11 +40,11 @@ func toggleCommand() error {
 	if err != nil {
 		return err
 	}
+
+	dTime := DisableTime{HasTimeout: false}
 	switch status.Protection_enabled {
 	case true:
-		// special case - toggle never cares about a duration
-		var nilArgs []string
-		disableCommand(nilArgs)
+		disableCommand(dTime)
 	case false:
 		enableCommand()
 	}

@@ -21,7 +21,7 @@ func EnableCmdE(cmd *cobra.Command, flags []string) error {
 }
 
 func printEnable() error {
-	//
+
 	var err error
 	status, err := enableCommand()
 	if err != nil {

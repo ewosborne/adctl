@@ -17,21 +17,6 @@ import (
 	"github.com/spf13/cobra"
 )
 
-/*
-{
-  "blocked_services": [
-    {
-      "icon_svg": "string",
-      "id": "string",
-      "name": "string",
-      "rules": [
-        "string"
-      ]
-    }
-  ]
-}
-*/
-
 type Service struct {
 	ID   string `json:"id"`
 	Name string `json:"name"`
@@ -68,6 +53,29 @@ func ListAllCmdE(cmd *cobra.Command, args []string) error {
 		return fmt.Errorf("error somewhere %w", err)
 	}
 
+	return nil
+}
+
+func PrintAllServices() error {
+
+	smap, err := GetAllServices()
+	name2id := smap.Name2ID
+
+	if err != nil {
+		return err
+	}
+
+	s := slices.Collect(maps.Keys(name2id))
+	sort.Strings(s)
+
+	w := tabwriter.NewWriter(os.Stdout, 0, 0, 1, ' ', 0)
+	defer w.Flush() // TODO I can't decide if this is dumb or not
+	fmt.Fprintf(w, "Name\tID\n")
+	fmt.Fprintf(w, "====\t==\n")
+
+	for _, k := range s {
+		fmt.Fprintf(w, "%s\t%s\n", k, name2id[k])
+	}
 	return nil
 }
 
@@ -110,29 +118,6 @@ func GetAllServices() (ServiceMap, error) {
 	}
 
 	return ret, nil
-}
-
-func PrintAllServices() error {
-
-	smap, err := GetAllServices()
-	name2id := smap.Name2ID
-
-	if err != nil {
-		return err
-	}
-
-	s := slices.Collect(maps.Keys(name2id))
-	sort.Strings(s)
-
-	w := tabwriter.NewWriter(os.Stdout, 0, 0, 1, ' ', 0)
-	defer w.Flush() // TODO I can't decide if this is dumb or not
-	fmt.Fprintf(w, "Name\tID\n")
-	fmt.Fprintf(w, "====\t==\n")
-
-	for _, k := range s {
-		fmt.Fprintf(w, "%s\t%s\n", k, name2id[k])
-	}
-	return nil
 }
 
 func init() {
