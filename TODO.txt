@@ -16,38 +16,13 @@
 1. clean up all commands to conform to the structure like new ones - no passing args[] or cmd.
  * done.
 
-2. tighten up cli keywords, make them clean and obvious.
+2. tighten up cli keywords, make them clean and obvious. *done I think, maybe minor WIP
 
-new cli
-noun verb
-	filter*
-		check**
-	status*
-		disable*
-		enable*
-		toggle*
-    get*
-	log  
-		get << this seems vague >> **done anyways ***
-	services*
-	 'services' because this is not about stopping the whole service, it's about toggling specific web properties.
-	 
-	 what does the api call it?
-	 
-	 is there a better word than 'services" or 'service'?
-		list*
-			all*
-			blocked*
-		update*
-			keep --block and --permit so I can do both at once?
-			yeah, that seems cleaner
+3. tests   *old ones ported over and work but I could use more.
 
+4. debugs and verbosity
 
-now todo: port over tests.
-
-Commands represent actions, Args are things and Flags are modifiers for those actions.
-The pattern to follow is APPNAME VERB NOUN --ADJECTIVE. or APPNAME COMMAND ARG --FLAG
-https://clig.dev/
+5. general code tidiness.
 
 
     * logging and print to stderr if I need to do any?
@@ -72,7 +47,3 @@ https://clig.dev/
     * list of services/IDs default to json but also have --table?
     * pre-action status reponses, e.g. "toggling adblock status" before toggle done.
 
-
-3. tests
-4. debugs and verbosity
-5. general code tidiness.
