@@ -43,6 +43,7 @@ noun verb
 			yeah, that seems cleaner
 
 
+now todo: port over tests.
 
 Commands represent actions, Args are things and Flags are modifiers for those actions.
 The pattern to follow is APPNAME VERB NOUN --ADJECTIVE. or APPNAME COMMAND ARG --FLAG
