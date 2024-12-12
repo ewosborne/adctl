@@ -65,12 +65,12 @@ func updateServices() error {
 	}
 
 	// add new stuff to block
-	for _, s := range svcs.block {
+	for _, s := range toBlock {
 		tmp[s] = true
 	}
 
 	// subtract anything to unblock
-	for _, s := range svcs.permit {
+	for _, s := range toPermit {
 		tmp[s] = false
 	}
 
@@ -108,8 +108,7 @@ func updateServices() error {
 	if err != nil {
 		return err
 	}
-<<<<<<< Updated upstream
-=======
+
 	// TODO: check to make sure that what we just pushed looks like what the server thinks
 	s, err := GetBlockedServices()
 	if err != nil {
@@ -121,7 +120,6 @@ func updateServices() error {
 	if !slices.Equal(blocked.IDs, s.IDs) {
 		return fmt.Errorf("service lists unequal: %v %v", blocked.IDs, s.IDs)
 	}
->>>>>>> Stashed changes
 
 	return nil
 
