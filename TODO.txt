@@ -21,7 +21,8 @@
 3. tests   *old ones ported over and work but I could always use more.
 
 4. debugs and verbosity
-  - global enableDebug flag defined, not sure what to do with it or the best way to handle it
+  * global enableDebug flag defined, need to start using it
+  x do not have verbosity yet, TBD.
 
 5. general code tidiness.
 
