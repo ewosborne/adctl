@@ -55,7 +55,7 @@ func UpdateServiceCmdE(cmd *cobra.Command, args []string) error {
 }
 
 func computeNewBlocks(currentlyBlocked AllBlockedServices, changes ServiceLists) ([]string, error) {
-	var ret []string
+	ret := []string{}
 	svcmap := make(map[string]bool)
 
 	// take currentlyBlocked.IDs and enter them into the map
@@ -66,13 +66,13 @@ func computeNewBlocks(currentlyBlocked AllBlockedServices, changes ServiceLists)
 
 	// add all changes.block
 
-	//fmt.Println("to block", changes.block)
+	debugLogger.Println("to block", changes.block)
 	for _, svc := range changes.block {
 		svcmap[svc] = true
 	}
 
 	// subtract all changes.permit
-	//fmt.Println("to permit", changes.permit)
+	debugLogger.Println("to permit", changes.permit)
 	for _, svc := range changes.permit {
 		svcmap[svc] = false
 	}
@@ -93,6 +93,8 @@ func computeNewBlocks(currentlyBlocked AllBlockedServices, changes ServiceLists)
 
 	// clean up.  no dups since it came from map keys.
 	slices.Sort(ret)
+
+	debugLogger.Print("final set to enable ", ret)
 	// return it
 
 	return ret, nil
@@ -122,7 +124,7 @@ func updateServices(svcs ServiceLists) error {
 
 	baseURL.Path = "/control/blocked_services/update"
 
-	//fmt.Println("going to update with", requestBody)
+	debugLogger.Println("going to update with", requestBody)
 
 	// put it all together
 	enableQuery := common.CommandArgs{
@@ -144,7 +146,6 @@ func updateServices(svcs ServiceLists) error {
 
 	slices.Sort(blocked.IDs)
 	slices.Sort(s.IDs)
-	s.IDs = []string{"foobar"}
 	if !slices.Equal(blocked.IDs, s.IDs) {
 		return fmt.Errorf("service lists unequal: %v %v", blocked.IDs, s.IDs)
 	}
@@ -158,7 +159,7 @@ func updateServices(svcs ServiceLists) error {
 	slices.Sort(blocked.IDs)
 	slices.Sort(s.IDs)
 	if !slices.Equal(newList, s.IDs) {
-		return fmt.Errorf("service lists unequal: %v %v", blocked.IDs, s.IDs)
+		return fmt.Errorf("service lists unequal: %v %v", newList, s.IDs)
 	}
 
 	return nil
