@@ -57,20 +57,20 @@ func computeNewBlocks(currentlyBlocked AllBlockedServices, changes ServiceLists)
 	svcmap := make(map[string]bool)
 
 	// take currentlyBlocked.IDs and enter them into the map
-	fmt.Println("currently blocked", currentlyBlocked.IDs)
+	//fmt.Println("currently blocked", currentlyBlocked.IDs)
 	for _, svc := range currentlyBlocked.IDs {
 		svcmap[svc] = true
 	}
 
 	// add all changes.block
 
-	fmt.Println("to block", changes.block)
+	//fmt.Println("to block", changes.block)
 	for _, svc := range changes.block {
 		svcmap[svc] = true
 	}
 
 	// subtract all changes.permit
-	fmt.Println("to permit", changes.permit)
+	//fmt.Println("to permit", changes.permit)
 	for _, svc := range changes.permit {
 		svcmap[svc] = false
 	}
@@ -79,6 +79,13 @@ func computeNewBlocks(currentlyBlocked AllBlockedServices, changes ServiceLists)
 	for k := range svcmap {
 		if svcmap[k] {
 			ret = append(ret, k)
+		}
+	}
+
+	/// special case to disable all
+	for _, k := range changes.permit {
+		if k == "all" {
+			ret = []string{}
 		}
 	}
 
@@ -113,7 +120,7 @@ func updateServices(svcs ServiceLists) error {
 
 	baseURL.Path = "/control/blocked_services/update"
 
-	fmt.Println("going to update with", requestBody)
+	//fmt.Println("going to update with", requestBody)
 
 	// put it all together
 	enableQuery := common.CommandArgs{
