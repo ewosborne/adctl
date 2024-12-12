@@ -40,7 +40,7 @@ func UpdateServiceCmdE(cmd *cobra.Command, args []string) error {
 
 	// should I pass in toPermit and toBlock or leave them global here?
 	//   does passing them as args make testing easier? TODO
-	err := updateServices()
+	err := updateServices(toPermit, toBlock)
 	if err != nil {
 		return fmt.Errorf("error updating services %w", err)
 	}
@@ -48,7 +48,7 @@ func UpdateServiceCmdE(cmd *cobra.Command, args []string) error {
 	return nil
 }
 
-func updateServices() error {
+func updateServices(toPermit, toBlock []string) error {
 
 	// note that blocked has a schedule as well.  That just gets passed transparently through, I don't touch it.
 	blocked, err := GetBlockedServices()
@@ -118,6 +118,7 @@ func updateServices() error {
 
 	slices.Sort(blocked.IDs)
 	slices.Sort(s.IDs)
+	s.IDs = []string{"foobar"}
 	if !slices.Equal(blocked.IDs, s.IDs) {
 		return fmt.Errorf("service lists unequal: %v %v", blocked.IDs, s.IDs)
 	}
