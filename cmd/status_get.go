@@ -88,5 +88,6 @@ func GetStatus() (Status, error) {
 }
 
 func init() {
-	statusCmd.AddCommand(statusGetCmd)
+	// removing this for now to see if I like it gone.
+	//statusCmd.AddCommand(statusGetCmd)
 }

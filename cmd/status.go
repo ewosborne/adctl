@@ -11,6 +11,7 @@ import (
 var statusCmd = &cobra.Command{
 	Use:   "status",
 	Short: "Check and change adblocking status",
+	RunE:  StatusCmdE,
 }
 
 func init() {
