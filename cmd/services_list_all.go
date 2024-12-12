@@ -53,6 +53,7 @@ func ListAllCmdE(cmd *cobra.Command, args []string) error {
 	return nil
 }
 
+// TODO: make this json or text
 func PrintAllServices() error {
 
 	smap, err := GetAllServices()

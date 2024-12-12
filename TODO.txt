@@ -18,13 +18,16 @@
 
 2. tighten up cli keywords, make them clean and obvious. *done I think, maybe minor WIP
 
-3. tests   *old ones ported over and work but I could use more.
+3. tests   *old ones ported over and work but I could always use more.
 
 4. debugs and verbosity
+  - global enableDebug flag defined, not sure what to do with it or the best way to handle it
 
 5. general code tidiness.
 
 
+    * use logging not printfs
+    * change all printfs to json with flags for text and gron.
     * logging and print to stderr if I need to do any?
     * clean up error formatting?
     * command names: case?  words?  verbs vs nouns?  'cmd noun verb' seems to be it.
@@ -46,4 +49,4 @@
     https://github.com/fatih/color for color output support
     * list of services/IDs default to json but also have --table?
     * pre-action status reponses, e.g. "toggling adblock status" before toggle done.
-
+    * update README

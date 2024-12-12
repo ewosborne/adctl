@@ -71,7 +71,7 @@ func updateServices() error {
 	// turn service map back into the final list of services
 	newlist := []string{}
 	for k, v := range tmp {
-		if v == true {
+		if v {
 			newlist = append(newlist, k)
 		}
 	}

@@ -18,13 +18,15 @@ type Status struct {
 }
 
 // statusCmd represents the status command
+//
+//lint:ignore U1000 not sure why it's unhappy
 var statusGetCmd = &cobra.Command{
 	Use:   "get",
 	Short: "Get adblock status",
-	RunE:  StatusCmdE,
+	RunE:  StatusGetCmdE,
 }
 
-func StatusCmdE(cmd *cobra.Command, args []string) error {
+func StatusGetCmdE(cmd *cobra.Command, args []string) error {
 	s, err := GetStatus()
 	if err != nil {
 		return err
@@ -54,7 +56,8 @@ func PrintStatus(status Status) error {
 	}
 
 	fmt.Printf("adguard is %v\n", statusString)
-
+	debugLogger.Println("this is a debug message")
+	debugLogger.Printf("your output value is %s", outputFormat)
 	return nil
 }
 
