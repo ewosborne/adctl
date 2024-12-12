@@ -40,20 +40,62 @@ func UpdateServiceCmdE(cmd *cobra.Command, args []string) error {
 	if len(toBlock) == 0 && len(toPermit) == 0 {
 		return fmt.Errorf("need either permit or blocked flag")
 	}
-	// first tidy up.  should I wrap these in a struct? TODO
+	// first tidy up.
 	toBlock = unique(toBlock)
 	toPermit = unique(toPermit)
 
 	svcs := ServiceLists{block: toBlock, permit: toPermit}
 
-	// should I pass in toPermit and toBlock or leave them global here?
-	//   does passing them as args make testing easier? TODO
 	err := updateServices(svcs)
 	if err != nil {
 		return fmt.Errorf("error updating services %w", err)
 	}
 
 	return nil
+}
+
+func computeNewBlocks(currentlyBlocked AllBlockedServices, changes ServiceLists) ([]string, error) {
+	var ret []string
+	svcmap := make(map[string]bool)
+
+	// take currentlyBlocked.IDs and enter them into the map
+	//fmt.Println("currently blocked", currentlyBlocked.IDs)
+	for _, svc := range currentlyBlocked.IDs {
+		svcmap[svc] = true
+	}
+
+	// add all changes.block
+
+	//fmt.Println("to block", changes.block)
+	for _, svc := range changes.block {
+		svcmap[svc] = true
+	}
+
+	// subtract all changes.permit
+	//fmt.Println("to permit", changes.permit)
+	for _, svc := range changes.permit {
+		svcmap[svc] = false
+	}
+
+	// turn back into a list of services which is the new thing to push
+	for k := range svcmap {
+		if svcmap[k] {
+			ret = append(ret, k)
+		}
+	}
+
+	/// special case to disable all
+	for _, k := range changes.permit {
+		if k == "all" {
+			ret = []string{}
+		}
+	}
+
+	// clean up.  no dups since it came from map keys.
+	slices.Sort(ret)
+	// return it
+
+	return ret, nil
 }
 
 func updateServices(svcs ServiceLists) error {
@@ -64,34 +106,14 @@ func updateServices(svcs ServiceLists) error {
 		return fmt.Errorf("error calling GetBlockedServices %w", err)
 	}
 
-	// take the list of currently blocked services, may be none.
-	//  add all new toBlock and then remove all toPermit
-	tmp := make(map[string]bool)
-	for _, s := range blocked.IDs {
-		tmp[s] = true
-	}
-	for _, s := range svcs.block {
-		tmp[s] = true
+	newList, err := computeNewBlocks(blocked, svcs)
+	if err != nil {
+		return fmt.Errorf("error computing new blocks: %w", err)
 	}
 
-	for _, s := range svcs.permit {
-		tmp[s] = false
-	}
-
-	// turn service map back into the final list of services
-	newlist := []string{}
-	for k, v := range tmp {
-		if v {
-			newlist = append(newlist, k)
-		}
-	}
-
-	// TODO: I left this line out once and tests didn't catch it.  need a test.
-	blocked.IDs = newlist
-	// // special case
-	// if permitAll {
-	// 	newlist = []string{}
-	// }
+	var requestBody = make(map[string]any)
+	requestBody["ids"] = newList
+	requestBody["schedule"] = blocked.Schedule
 
 	baseURL, err := common.GetBaseURL()
 	if err != nil {
@@ -99,10 +121,6 @@ func updateServices(svcs ServiceLists) error {
 	}
 
 	baseURL.Path = "/control/blocked_services/update"
-
-	var requestBody = make(map[string]any)
-	requestBody["ids"] = blocked.IDs
-	requestBody["schedule"] = blocked.Schedule
 
 	//fmt.Println("going to update with", requestBody)
 
@@ -128,6 +146,18 @@ func updateServices(svcs ServiceLists) error {
 	slices.Sort(s.IDs)
 	s.IDs = []string{"foobar"}
 	if !slices.Equal(blocked.IDs, s.IDs) {
+		return fmt.Errorf("service lists unequal: %v %v", blocked.IDs, s.IDs)
+	}
+
+	// TODO: check to make sure that what we just pushed looks like what the server thinks
+	s, err = GetBlockedServices()
+	if err != nil {
+		return fmt.Errorf("error getting blocked services %w", err)
+	}
+
+	slices.Sort(blocked.IDs)
+	slices.Sort(s.IDs)
+	if !slices.Equal(newList, s.IDs) {
 		return fmt.Errorf("service lists unequal: %v %v", blocked.IDs, s.IDs)
 	}
 
