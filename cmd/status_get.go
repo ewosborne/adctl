@@ -56,8 +56,6 @@ func PrintStatus(status Status) error {
 	}
 
 	fmt.Printf("adguard is %v\n", statusString)
-	debugLogger.Println("this is a debug message")
-	debugLogger.Printf("your output value is %s", outputFormat)
 	return nil
 }
 
