@@ -33,6 +33,11 @@ func serviceListBlockedCmdE(cmd *cobra.Command, args []string) error {
 	return nil
 }
 
+type BlockedWithCount struct {
+	Count int      `json:"count"`
+	IDs   []string `json:"IDs"`
+}
+
 func PrintBlockedServices() error {
 
 	s, err := GetBlockedServices()
@@ -42,7 +47,11 @@ func PrintBlockedServices() error {
 	}
 
 	// json
-	b, err := json.MarshalIndent(s.IDs, "", " ")
+	var x BlockedWithCount
+	x.Count = len(s.IDs)
+	x.IDs = s.IDs
+	//x := BlockedWithCount{Count: len(s.IDs), AllBlockedServices.AllBlockedServices: s.IDs}
+	b, err := json.MarshalIndent(x, "", " ")
 	if err != nil {
 		return err
 	}
