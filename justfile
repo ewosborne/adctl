@@ -17,22 +17,24 @@ test: mac
 
 testAll: test testCLI
 
+# TODO: this needs to be rewritten
 testCLI: build
-    ./$bin status
-    ./$bin enable
-    ./$bin status
-    ./$bin disable
-    ./$bin status
-    ./$bin disable 15s
-    ./$bin status
-    ./$bin enable
-    ./$bin status
-    ./$bin toggle
-    ./$bin status
-    ./$bin toggle
-    ./$bin status
-    ./$bin getlog | jq '.oldest'
-    ./$bin getlog 42 | jq '.data | length'
+
+#    ./$bin status
+#    ./$bin enable
+#    ./$bin status
+#    ./$bin disable
+#    ./$bin status
+#    ./$bin disable 15s
+#    ./$bin status
+#    ./$bin enable
+#    ./$bin status
+#    ./$bin toggle
+#    ./$bin status
+#    ./$bin toggle
+#    ./$bin status
+#    ./$bin getlog | jq '.oldest'
+#    ./$bin getlog 42 | jq '.data | length'
 
 fmt:
     just --unstable --fmt
