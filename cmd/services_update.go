@@ -38,14 +38,12 @@ func UpdateServiceCmdE(cmd *cobra.Command, args []string) error {
 	if len(toBlock) == 0 && len(toPermit) == 0 {
 		return fmt.Errorf("need either permit or blocked flag")
 	}
-	// first tidy up.  should I wrap these in a struct? TODO
+	// first tidy up.
 	toBlock = unique(toBlock)
 	toPermit = unique(toPermit)
 
 	svcs := ServiceLists{block: toBlock, permit: toPermit}
 
-	// should I pass in toPermit and toBlock or leave them global here?
-	//   does passing them as args make testing easier? TODO
 	err := updateServices(svcs)
 	if err != nil {
 		return fmt.Errorf("error updating services %w", err)
@@ -56,10 +54,9 @@ func UpdateServiceCmdE(cmd *cobra.Command, args []string) error {
 
 func computeNewBlocks(currentlyBlocked AllBlockedServices, changes ServiceLists) ([]string, error) {
 	var ret []string
-	//var svcmap map[string]bool
 	svcmap := make(map[string]bool)
-	// take currentlyBlocked.IDs and enter them into the map
 
+	// take currentlyBlocked.IDs and enter them into the map
 	fmt.Println("currently blocked", currentlyBlocked.IDs)
 	for _, svc := range currentlyBlocked.IDs {
 		svcmap[svc] = true
