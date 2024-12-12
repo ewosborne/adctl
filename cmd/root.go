@@ -13,7 +13,8 @@ import (
 )
 
 var debugLogger *log.Logger
-var outputFormat string
+
+// var outputFormat string
 var enableDebug bool
 
 // rootCmd represents the base command when called without any subcommands
@@ -32,8 +33,8 @@ func Execute() {
 }
 
 func init() {
-	rootCmd.PersistentFlags().BoolVarP(&enableDebug, "debug", "d", false, "Enable debug mode")
-	rootCmd.PersistentFlags().StringVarP(&outputFormat, "output format", "o", "json", "Enable debug mode")
+	rootCmd.PersistentFlags().BoolVarP(&enableDebug, "debug", "d", os.Getenv("DEBUG") == "true", "Enable debug mode")
+	//rootCmd.PersistentFlags().StringVarP(&outputFormat, "output format", "o", "json", "Enable debug mode")
 
 	debugLogger = log.New(os.Stdout, "DEBUG: ", log.Ldate|log.Ltime)
 
