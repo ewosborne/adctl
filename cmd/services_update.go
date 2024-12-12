@@ -21,6 +21,7 @@ var serviceUpdateCmd = &cobra.Command{
 // populated as flags, see init()
 var toPermit []string
 var toBlock []string
+var permitAll bool
 
 func unique(list []string) []string {
 	slices.Sort(list)
@@ -64,6 +65,7 @@ func updateServices() error {
 	for _, s := range toBlock {
 		tmp[s] = true
 	}
+
 	for _, s := range toPermit {
 		tmp[s] = false
 	}
@@ -75,7 +77,13 @@ func updateServices() error {
 			newlist = append(newlist, k)
 		}
 	}
+
+	// TODO: I left this line out once and tests didn't catch it.  need a test.
 	blocked.IDs = newlist
+	// // special case
+	// if permitAll {
+	// 	newlist = []string{}
+	// }
 
 	baseURL, err := common.GetBaseURL()
 	if err != nil {
@@ -111,5 +119,6 @@ func init() {
 	servicesCmd.AddCommand(serviceUpdateCmd)
 	serviceUpdateCmd.Flags().StringSliceVar(&toPermit, "permit", []string{}, "CSV of services to permit")
 	serviceUpdateCmd.Flags().StringSliceVar(&toBlock, "block", []string{}, "CSV of services to block")
+	serviceUpdateCmd.Flags().BoolVarP(&permitAll, "permit-all", "", false, "Permit all services")
 
 }
