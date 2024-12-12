@@ -6,11 +6,6 @@ package cmd
 import (
 	"encoding/json"
 	"fmt"
-	"maps"
-	"os"
-	"slices"
-	"sort"
-	"text/tabwriter"
 
 	"github.com/ewosborne/adctl/common"
 	"github.com/spf13/cobra"
@@ -63,17 +58,27 @@ func PrintAllServices() error {
 		return err
 	}
 
-	s := slices.Collect(maps.Keys(name2id))
-	sort.Strings(s)
-
-	w := tabwriter.NewWriter(os.Stdout, 0, 0, 1, ' ', 0)
-	defer w.Flush() // TODO I can't decide if this is dumb or not
-	fmt.Fprintf(w, "Name\tID\n")
-	fmt.Fprintf(w, "====\t==\n")
-
-	for _, k := range s {
-		fmt.Fprintf(w, "%s\t%s\n", k, name2id[k])
+	// print name2id
+	// if json
+	b, err := json.MarshalIndent(name2id, "", " ")
+	if err != nil {
+		return err
 	}
+	fmt.Println(string(b))
+
+	// if text
+
+	// s := slices.Collect(maps.Keys(name2id))
+	// sort.Strings(s)
+
+	// w := tabwriter.NewWriter(os.Stdout, 0, 0, 1, ' ', 0)
+	// defer w.Flush() // TODO I can't decide if this is dumb or not
+	// fmt.Fprintf(w, "Name\tID\n")
+	// fmt.Fprintf(w, "====\t==\n")
+
+	// for _, k := range s {
+	// 	fmt.Fprintf(w, "%s\t%s\n", k, name2id[k])
+	// }
 	return nil
 }
 

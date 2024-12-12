@@ -41,17 +41,25 @@ func PrintBlockedServices() error {
 		return err
 	}
 
-	if len(s.IDs) == 0 {
-		fmt.Println("no services blocked")
-	} else {
-		allServices, err := GetAllServices()
-		if err != nil {
-			return fmt.Errorf("error getting all services: %w", err)
-		}
-		for _, x := range s.IDs {
-			fmt.Println("svc blocked", allServices.ID2Name[x])
-		}
+	// json
+	b, err := json.MarshalIndent(s.IDs, "", " ")
+	if err != nil {
+		return err
 	}
+	fmt.Println(string(b))
+
+	// text
+	// if len(s.IDs) == 0 {
+	// 	fmt.Println("no services blocked")
+	// } else {
+	// 	allServices, err := GetAllServices()
+	// 	if err != nil {
+	// 		return fmt.Errorf("error getting all services: %w", err)
+	// 	}
+	// 	for _, x := range s.IDs {
+	// 		fmt.Println("svc blocked", allServices.ID2Name[x])
+	// 	}
+	// }
 
 	return nil
 }

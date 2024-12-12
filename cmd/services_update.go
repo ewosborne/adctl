@@ -146,8 +146,8 @@ func updateServices(svcs ServiceLists) error {
 
 	slices.Sort(blocked.IDs)
 	slices.Sort(s.IDs)
-	if !slices.Equal(blocked.IDs, s.IDs) {
-		return fmt.Errorf("service lists unequal: %v %v", blocked.IDs, s.IDs)
+	if !slices.Equal(newList, s.IDs) {
+		return fmt.Errorf("service lists unequal: %v %v", newList, s.IDs)
 	}
 
 	// TODO: check to make sure that what we just pushed looks like what the server thinks
@@ -160,6 +160,11 @@ func updateServices(svcs ServiceLists) error {
 	slices.Sort(s.IDs)
 	if !slices.Equal(newList, s.IDs) {
 		return fmt.Errorf("service lists unequal: %v %v", newList, s.IDs)
+	}
+
+	err = PrintBlockedServices()
+	if err != nil {
+		return err
 	}
 
 	return nil
