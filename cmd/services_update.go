@@ -110,6 +110,17 @@ func updateServices() error {
 	if err != nil {
 		return err
 	}
+	// TODO: check to make sure that what we just pushed looks like what the server thinks
+	s, err := GetBlockedServices()
+	if err != nil {
+		return fmt.Errorf("error getting blocked services %w", err)
+	}
+
+	slices.Sort(blocked.IDs)
+	slices.Sort(s.IDs)
+	if !slices.Equal(blocked.IDs, s.IDs) {
+		return fmt.Errorf("service lists unequal: %v %v", blocked.IDs, s.IDs)
+	}
 
 	return nil
 
