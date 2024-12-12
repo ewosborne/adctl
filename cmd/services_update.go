@@ -19,9 +19,15 @@ var serviceUpdateCmd = &cobra.Command{
 }
 
 // populated as flags, see init()
+// TODO: put these in a struct, clean them up?
 var toPermit []string
 var toBlock []string
 var permitAll bool
+
+type ServiceLists struct {
+	permit []string
+	block  []string
+}
 
 func unique(list []string) []string {
 	slices.Sort(list)
@@ -38,9 +44,11 @@ func UpdateServiceCmdE(cmd *cobra.Command, args []string) error {
 	toBlock = unique(toBlock)
 	toPermit = unique(toPermit)
 
+	svcs := ServiceLists{block: toBlock, permit: toPermit}
+
 	// should I pass in toPermit and toBlock or leave them global here?
 	//   does passing them as args make testing easier? TODO
-	err := updateServices(toPermit, toBlock)
+	err := updateServices(svcs)
 	if err != nil {
 		return fmt.Errorf("error updating services %w", err)
 	}
@@ -48,7 +56,7 @@ func UpdateServiceCmdE(cmd *cobra.Command, args []string) error {
 	return nil
 }
 
-func updateServices(toPermit, toBlock []string) error {
+func updateServices(svcs ServiceLists) error {
 
 	// note that blocked has a schedule as well.  That just gets passed transparently through, I don't touch it.
 	blocked, err := GetBlockedServices()
@@ -62,11 +70,11 @@ func updateServices(toPermit, toBlock []string) error {
 	for _, s := range blocked.IDs {
 		tmp[s] = true
 	}
-	for _, s := range toBlock {
+	for _, s := range svcs.block {
 		tmp[s] = true
 	}
 
-	for _, s := range toPermit {
+	for _, s := range svcs.permit {
 		tmp[s] = false
 	}
 
