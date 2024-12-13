@@ -23,9 +23,9 @@
 
 You need three environment variables: 
 
-    ADCTL_USERNAME
-    ADCTL_PASSWORD
-    ADCTL_HOST
+    ADCTL_USERNAME="<username you use to log into the AdGuard Home web UI>"
+    ADCTL_PASSWORD="<password>"
+    ADCTL_HOST="<host:port, e.g., router.example.com:8080>
 
 The username and password are what you'd use to log into the AdGuard Home console. `ADCTL_HOST` is the host and port you use to reach the GUI.  Mine is set to `router:8080` but IP address will work too. AdGuard Home doesn't support auth tokens so hardcoded password is all you get. 
 I plan to add Viper support so `adctl` can get its config from a file, but right now env vars is all there is.
@@ -67,7 +67,8 @@ Checks ad filters to see if a host is present.
 
 ### log
 Pulls the last N logs (default is 500).  Takes an optional argument of the number of logs to get.  0 will fetch all logs on the server.
-    erico@Erics-MacBook-Air adctl % adctl log get 
+
+    adctl % adctl log get 
     {
     "data": [
         {
@@ -114,7 +115,7 @@ List all currently blocked services.
 
 
 #### update
-Takes two flags, `-b/--block` and `-u/--unblock`. Arguments are the ID of the service (the second item in the tuples returned by `service list all`) in the form of a CSV. Returns the equivalent of `adctl service list blocked`.
+Takes two flags, `-b/--block` and `-u/--unblock`. Arguments are the ID of the service (the second item in the tuples returned by `service list all`) in the form of a CSV. Returns the equivalent of `adctl service list blocked`. `-u/--unblock` can also take the keyword `all` to disable all service blocking.  `-b/--block` cannot.
 
     adctl service update -b="yy,reddit" --unblock=4chan
     {
@@ -128,7 +129,7 @@ Takes two flags, `-b/--block` and `-u/--unblock`. Arguments are the ID of the se
 ### status
 Returns whether protection is enabled, and if it's disabled, whether there's a duration.
 
-    adctl % adctl status
+    adctl status
     {
         "Protection_enabled": true,
         "Protection_disabled_duration": ""
