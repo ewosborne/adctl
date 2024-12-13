@@ -25,7 +25,7 @@ func GetBaseURL() (url.URL, error) {
 		return ret, err
 	}
 
-	ret.Host = fmt.Sprintf(h)
+	ret.Host = fmt.Sprint(h)
 	return ret, nil
 
 }
@@ -137,11 +137,11 @@ func SendCommand(ca CommandArgs) ([]byte, error) {
 	body, err := io.ReadAll(resp.Body)
 
 	if err != nil {
-		return nil, fmt.Errorf("Error reading response: %v\n", err)
+		return nil, fmt.Errorf("error reading response: %v", err)
 	}
 
 	if resp.StatusCode != 200 {
-		return nil, fmt.Errorf("Status code not 200: %v\n", resp.Status)
+		return nil, fmt.Errorf("status code not 200: %v", resp.Status)
 	}
 
 	return body, nil
