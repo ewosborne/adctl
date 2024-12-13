@@ -19,20 +19,20 @@ testAll: test testCLI
 
 # TODO: this needs to be rewritten
 testCLI: build
+    ./$bin status
+    ./$bin status enable
+    ./$bin status
+    ./$bin status disable
+    ./$bin status
+    ./$bin status disable 15s
+    ./$bin status
+    ./$bin status enable
+    ./$bin status
+    ./$bin status toggle
+    ./$bin status
+    ./$bin status toggle
+    ./$bin status
 
-#    ./$bin status
-#    ./$bin enable
-#    ./$bin status
-#    ./$bin disable
-#    ./$bin status
-#    ./$bin disable 15s
-#    ./$bin status
-#    ./$bin enable
-#    ./$bin status
-#    ./$bin toggle
-#    ./$bin status
-#    ./$bin toggle
-#    ./$bin status
 #    ./$bin getlog | jq '.oldest'
 #    ./$bin getlog 42 | jq '.data | length'
 
