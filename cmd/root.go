@@ -21,6 +21,7 @@ var enableDebug bool
 var rootCmd = &cobra.Command{
 	Use:     "adctl",
 	Version: "0.5.0",
+	Long:    `adctl lets you control AdGuard Home from the CLI. Documentation and source: https://github.com/ewosborne/adctl`,
 }
 
 // Execute adds all child commands to the root command and sets flags appropriately.
