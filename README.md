@@ -1,6 +1,6 @@
 # adctl
 
-`adctl` controls AdGuard Home.
+`adctl` controls AdGuard Home.  [GitHub repo](https://github.com/ewosborne/adctl).
 
 
 ## Usage
