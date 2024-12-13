@@ -55,8 +55,12 @@ func PrintStatus(status Status) error {
 		statusString += fmt.Sprintf(" for %v", remaining)
 	}
 
-	fmt.Printf("adguard is %v\n", statusString)
-	debugLogger.Println("this is a debug message")
+	tmp, err := json.MarshalIndent(statusString, "", " ")
+	if err != nil {
+		return err
+	}
+
+	fmt.Println(string(tmp))
 	return nil
 }
 
