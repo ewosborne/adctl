@@ -68,7 +68,7 @@ Checks ad filters to see if a host is present.
 ### log
 Pulls the last N logs (default is 500).  Takes an optional argument of the number of logs to get.  0 will fetch all logs on the server.
 
-    adctl % adctl log get 
+    adctl log get 
     {
     "data": [
         {
