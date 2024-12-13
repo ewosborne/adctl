@@ -9,8 +9,8 @@ import (
 
 // servicesCmd represents the services command
 var servicesCmd = &cobra.Command{
-	Use:   "services",
-	Short: "A brief description of your command",
+	Use:   "service",
+	Short: "Alter filtered services",
 }
 
 func init() {
