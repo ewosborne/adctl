@@ -114,7 +114,7 @@ List all currently blocked services.
 
 
 #### update
-Takes two flags, `-b/--block` and `-u/--unblock`. Arguments are in the form of a CSV. Returns the equivalent of `adctl service list blocked`.
+Takes two flags, `-b/--block` and `-u/--unblock`. Arguments are the ID of the service (the second item in the tuples returned by `service list all`) in the form of a CSV. Returns the equivalent of `adctl service list blocked`.
 
     adctl service update -b="yy,reddit" --unblock=4chan
     {
