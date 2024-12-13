@@ -26,20 +26,18 @@
 5. general code tidiness.
 
 
-    * github actions to build releases
+    * github actions to build releases - but then which tests?  
     * use logging not printfs
     * change all printfs to json with flags for text and gron.
     * logging and print to stderr if I need to do any?
     * clean up error formatting?
-    * command names: case?  words?  verbs vs nouns?  'cmd noun verb' seems to be it.
-    * exit codes? 0 on successful change, non-zero otherwise.
-    * confirmation messages - oneliners that things worked or failed.
     * better help text - short and long.
     * url in help text
     * man page?  ick.  tools to generate it?
     * outputs other than json?  gron?  https://github.com/maahsome/gron
     * for flags, short and long versions.  
-      * allow/block vs permit/deny?  
+      * allow/block vs permit/deny vs enable/disable.  ui uses block/unblock.  api just pushes the final list.  so block/unblock?
+      
     * think real hard about when to have args over flags.  
     *   service permit/deny all with confirmation?  or just don't do this?  or just disable but not enable all?
     * what do 12factor apps do?
