@@ -26,7 +26,6 @@
 5. general code tidiness.
 
 
-    * clean up testAll/testCLI in justfile
     * use logging not printfs
     * change all printfs to json with flags for text and gron.
     * logging and print to stderr if I need to do any?

@@ -15,10 +15,10 @@ run *ARGS: build
 test: mac
     go test ./cmd -test.v
 
-testAll: test testCLI
+testall: test testcli
 
 # TODO: this needs to be rewritten
-testCLI: build
+testcli:
     ./$bin status
     ./$bin status enable
     ./$bin status
