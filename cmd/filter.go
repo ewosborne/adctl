@@ -10,7 +10,7 @@ import (
 // filterCmd represents the filter command
 var filterCmd = &cobra.Command{
 	Use:   "filter",
-	Short: "Filter parent command",
+	Short: "Check filter for entities",
 }
 
 func init() {

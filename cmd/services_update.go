@@ -38,7 +38,7 @@ func UpdateServiceCmdE(cmd *cobra.Command, args []string) error {
 
 	// TODO hack
 	if len(toBlock) == 0 && len(toPermit) == 0 {
-		return fmt.Errorf("need either permit or blocked flag")
+		return fmt.Errorf("need permit or blocked flag")
 	}
 	// first tidy up.
 	toBlock = unique(toBlock)
@@ -175,6 +175,5 @@ func init() {
 	servicesCmd.AddCommand(serviceUpdateCmd)
 	serviceUpdateCmd.Flags().StringSliceVar(&toPermit, "permit", []string{}, "CSV of services to permit")
 	serviceUpdateCmd.Flags().StringSliceVar(&toBlock, "block", []string{}, "CSV of services to block")
-	serviceUpdateCmd.Flags().BoolVarP(&permitAll, "permit-all", "", false, "Permit all services")
 
 }

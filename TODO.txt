@@ -9,8 +9,7 @@
 * verbose - similar to debug.
 * go over all method and data structure and command names and clean them up
 * add a test for missing args on getlogs since that caused a crash
-* 'adctl service update' with no parameters should do something or say something.
-
+* output hooks for json, text, gron 
 
 
 1. clean up all commands to conform to the structure like new ones - no passing args[] or cmd.
