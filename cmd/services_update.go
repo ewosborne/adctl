@@ -22,7 +22,6 @@ var serviceUpdateCmd = &cobra.Command{
 // TODO: put these in a struct, clean them up?
 var toPermit []string
 var toBlock []string
-var permitAll bool
 
 type ServiceLists struct {
 	permit []string
