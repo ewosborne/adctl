@@ -32,9 +32,8 @@ testcli:
     ./$bin status
     ./$bin status toggle
     ./$bin status
-
-#    ./$bin getlog | jq '.oldest'
-#    ./$bin getlog 42 | jq '.data | length'
+    ./$bin log get | jq '.oldest'
+    ./$bin log get 42 | jq '.data | length'
 
 fmt:
     just --unstable --fmt

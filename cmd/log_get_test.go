@@ -14,8 +14,6 @@ type ValidQueryResult struct {
 var TestLogArgsInstance = LogArgs{limit: "10", filter: "all"}
 
 func Test_Getlog(t *testing.T) {
-	t.Skip() // TODO: AGH is broken, doesn't give out logs
-
 	// test only a small log thing
 	log, err := getLogCommand(TestLogArgsInstance)
 
@@ -30,7 +28,6 @@ func Test_Getlog(t *testing.T) {
 }
 
 func Test_Getlog_Filter(t *testing.T) {
-	t.Skip() // TODO: AGH is broken, doesn't give out logs
 
 	// test with an allowed and disallowed filter.
 	// filter comes from the variable declared as a flag
@@ -61,7 +58,6 @@ func Test_Getlog_Filter(t *testing.T) {
 
 }
 func Test_Getlog_Search(t *testing.T) {
-	t.Skip() // TODO: AGH is broken, doesn't give out logs
 
 	var err error
 
