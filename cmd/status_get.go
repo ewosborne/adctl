@@ -52,7 +52,6 @@ func PrintStatus(status Status) error {
 	if status.Protection_disabled_duration > 0 {
 		readableStatus.Protection_disabled_duration = time.Duration(
 			status.Protection_disabled_duration * uint64(time.Millisecond)).Truncate(time.Second).String()
-		fmt.Println("rsps", readableStatus.Protection_disabled_duration)
 	}
 
 	tmp, err := json.MarshalIndent(readableStatus, "", " ")
