@@ -85,6 +85,8 @@ Pulls the last N logs (default is 500).  Takes an optional argument of the numbe
 ### service
 Shows and controls blocked services.
 #### list
+Doesn't do anything by itself but has two subcommands: `all` and `blocked`.
+
 ##### all
 List all services known to AdGuard Home
 
