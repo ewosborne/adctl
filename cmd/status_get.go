@@ -17,6 +17,11 @@ type Status struct {
 	Protection_disabled_duration uint64
 }
 
+type ReadableStatus struct {
+	Protection_enabled           bool
+	Protection_disabled_duration string
+}
+
 // statusCmd represents the status command
 //
 //lint:ignore U1000 not sure why it's unhappy
@@ -41,21 +46,16 @@ func PrintStatus(status Status) error {
 	// 	return fmt.Errorf("error getting status: %w", err)
 	// }
 
-	var statusString string
-	if status.Protection_enabled {
-		statusString = "enabled"
-	} else {
-		statusString = "disabled"
-	}
+	var readableStatus ReadableStatus
+	readableStatus.Protection_enabled = status.Protection_enabled
 
 	if status.Protection_disabled_duration > 0 {
-		remaining := time.Duration(
-			status.Protection_disabled_duration * uint64(time.Millisecond)).Truncate(time.Second)
-
-		statusString += fmt.Sprintf(" for %v", remaining)
+		readableStatus.Protection_disabled_duration = time.Duration(
+			status.Protection_disabled_duration * uint64(time.Millisecond)).Truncate(time.Second).String()
+		fmt.Println("rsps", readableStatus.Protection_disabled_duration)
 	}
 
-	tmp, err := json.MarshalIndent(statusString, "", " ")
+	tmp, err := json.MarshalIndent(readableStatus, "", " ")
 	if err != nil {
 		return err
 	}
