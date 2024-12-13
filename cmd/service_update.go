@@ -20,7 +20,7 @@ var serviceUpdateCmd = &cobra.Command{
 
 // populated as flags, see init()
 // TODO: put these in a struct, clean them up?
-var toPermit []string
+var toUnblock []string
 var toBlock []string
 
 type ServiceLists struct {
@@ -36,14 +36,14 @@ func unique(list []string) []string {
 func UpdateServiceCmdE(cmd *cobra.Command, args []string) error {
 
 	// TODO hack
-	if len(toBlock) == 0 && len(toPermit) == 0 {
+	if len(toBlock) == 0 && len(toUnblock) == 0 {
 		return fmt.Errorf("need permit or blocked flag")
 	}
 	// first tidy up.
 	toBlock = unique(toBlock)
-	toPermit = unique(toPermit)
+	toUnblock = unique(toUnblock)
 
-	svcs := ServiceLists{block: toBlock, permit: toPermit}
+	svcs := ServiceLists{block: toBlock, permit: toUnblock}
 
 	err := updateServices(svcs)
 	if err != nil {
@@ -172,7 +172,7 @@ func updateServices(svcs ServiceLists) error {
 
 func init() {
 	servicesCmd.AddCommand(serviceUpdateCmd)
-	serviceUpdateCmd.Flags().StringSliceVar(&toPermit, "permit", []string{}, "CSV of services to permit")
-	serviceUpdateCmd.Flags().StringSliceVar(&toBlock, "block", []string{}, "CSV of services to block")
+	serviceUpdateCmd.Flags().StringSliceVarP(&toUnblock, "unblock", "u", []string{}, "CSV of services to unblock")
+	serviceUpdateCmd.Flags().StringSliceVarP(&toBlock, "block", "b", []string{}, "CSV of services to block")
 
 }
