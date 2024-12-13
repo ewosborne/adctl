@@ -26,8 +26,8 @@
 5. general code tidiness.
 
 
-    * github actions to build releases - but then which tests?  
-    * use logging not printfs
+    * .config/adctl?  viper can do this?  
+    * github actions to build releases 
     * change all printfs to json with flags for text and gron.
     * logging and print to stderr if I need to do any?
     * clean up error formatting?
@@ -43,7 +43,6 @@
     * what do 12factor apps do?
     * adjust timeout for network call?  60sec?  pass via flag?
     * dry run for changes? maybe just for service filters?
-    * .config/adctl?  viper can do this?  
     * brew setup?
     https://github.com/fatih/color for color output support
     * list of services/IDs default to json but also have --table?

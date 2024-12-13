@@ -1,0 +1,17 @@
+flowchart LR
+    adctl---filter---check---id0["*string*"]
+    adctl---log---get---id1["*optional* number of entries"]
+    adctl---service
+    service---list
+    list---all
+    list---blocked
+    service---update
+    update---id2("-b or --blocked")
+    update---id3("-u or --unblocked")
+
+    adctl---status
+    status---disable
+    disable---id4("*optional* disable time in time.Duration format")
+    status---enable
+    status---toggle
+

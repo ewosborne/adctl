@@ -8,12 +8,18 @@
 
     Available Commands:
     completion  Generate the autocompletion script for the specified shell
-    disable     Disable ad blocker. Optional duration in time.Duration format.
-    enable      Enable ad blocking
-    getlog      Get logs. Optional length parameter, 0 == MaxUint32 log length.
+    filter      Check filter for entities
     help        Help about any command
-    status      Get adblock status
-    toggle      Toggle adblocker between enabled and disabled.
+    log         Get logs
+    service     Alter filtered services
+    status      Check and change adblocking status
+
+    Flags:
+    -d, --debug     Enable debug mode
+    -h, --help      help for adctl
+    -v, --version   version for adctl
+
+    Use "adctl [command] --help" for more information about a command.
 
 You need three environment variables: 
 
@@ -22,112 +28,150 @@ You need three environment variables:
     ADCTL_HOST
 
 The username and password are what you'd use to log into the AdGuard Home console. `ADCTL_HOST` is the host and port you use to reach the GUI.  Mine is set to `router:8080` but IP address will work too. AdGuard Home doesn't support auth tokens so hardcoded password is all you get. 
+I plan to add Viper support so `adctl` can get its config from a file, but right now env vars is all there is.
+
+All output is json and suitable for piping to `jq` and `gron` and such. 
 
 ## Building
 I use [just](https://just.systems/) so everything is in a `justfile`. You can do that too, or just copy the steps from that file and run them by hand. No magic here. `just build` or `go build -ldflags "-s -w" .`, as you like.
 
 ## Testing
-All of these tests run against an AdGuard Home server, I don't have any fancy test harnesses or mocks or anything. YMMV but this approach works for me.
+All of my tests run against an AdGuard Home server, I don't have any fancy test harnesses or mocks or anything. YMMV but this approach works for me.
 
+## CLI
+Here's a picture of the CLI and the [Mermaid source](cli.mermaid).
+![adctl cli](cli.svg "adctl CLI").  
 
 ## Examples
+See the CLI itself for all the options and usage, but here's the general idea.
 
-### enable
-    eric@air ~ % adctl enable
-    adguard is enabled
+### filter
+Checks ad filters to see if a host is present.
 
-### disable [timestamp]
-Disables adblocker. Takes an optional [duration string](https://pkg.go.dev/time#ParseDuration).
+    adctl filter check www.doubleclick.net
 
-    eric@air ~ % adctl disable
-    adguard is disabled
-    eric@air ~ % adctl disable 30s
-    adguard is disabled for 29s
-
-### getlog
-Returns a json of the logs from the server. The server's default is 500 entries (0-499) but you can change this with `getlog [limit]`.  
-
-    eric@air ~ % adctl getlog 42 | jq '.data[41]'
     {
-    "answer": [
-        {
-        "type": "A",
-        "value": "0.0.0.0",
-        "ttl": 10
-        }
-    ],
-    "answer_dnssec": false,
-    "cached": false,
-    "client": "192.168.1.182",
-    "client_info": {
-        "whois": {},
-        "name": "",
-        "disallowed_rule": "192.168.1.182",
-        "disallowed": false
-    },
-    "client_proto": "",
-    "elapsedMs": "0.13885699999999998",
-    "filterId": 1732762630,
-    "question": {
-        "class": "IN",
-        "name": "mobile.events.data.microsoft.com",
-        "type": "A"
-    },
     "reason": "FilteredBlackList",
-    "rule": "||events.data.microsoft.com^",
+    "rule": "||doubleclick.net^",
     "rules": [
         {
-        "filter_list_id": 1732762630,
-        "text": "||events.data.microsoft.com^"
+        "text": "||doubleclick.net^",
+        "filter_list_id": 1732762628
         }
     ],
-    "status": "NOERROR",
-    "time": "2024-12-08T05:55:33.752856831-05:00",
-    "upstream": ""
+    "service_name": "",
+    "cname": "",
+    "ip_addrs": null,
+    "filter_id": 1732762628
+    }
+
+### log
+Pulls the last N logs (default is 500).  Takes an optional argument of the number of logs to get.  0 will fetch all logs on the server.
+    erico@Erics-MacBook-Air adctl % adctl log get 
+    {
+    "data": [
+        {
+        "answer": [
+            {
+            "type": "A",
+            "value": "34.203.97.10",
+            "ttl": 60
+        ...
+        ...
+    ],
+    "oldest": "2024-12-13T14:50:29.166803105-05:00"
+    }
+     
+### service
+Shows and controls blocked services.
+#### list
+##### all
+List all services known to AdGuard Home
+
+    adctl service list all
+    {
+        "4chan": "4chan",
+        "500px": "500px",
+        "9GAG": "9gag",
+        "Activision Blizzard": "activision_blizzard",
+        "AliExpress": "aliexpress",
+        ...
+    }
+
+##### blocked
+List all currently blocked services.
+
+    adctl service list blocked
+    {
+        "count": 1,
+        "IDs": [
+            "4chan"
+        ]
     }
 
 
-A limit of 0 returns all logs on the server.
 
-    eric@air adctl % adctl getlog 0 | gron | tail   
-    json.data[50394].question = {};
-    json.data[50394].question.name = "lb._dns-sd._udp.example.com";
-    json.data[50394].question.type = "PTR";
-    json.data[50394].question["class"] = "IN";
-    json.data[50394].reason = "NotFilteredNotFound";
-    json.data[50394].rules = [];
-    json.data[50394].status = "NXDOMAIN";
-    json.data[50394].time = "2024-12-07T13:34:17.590528405-05:00";
-    json.data[50394].upstream = "127.0.0.1:5353";
-    json.oldest = "2024-12-07T13:34:17.590528405-05:00";
+#### update
+Takes two flags, `-b/--block` and `-u/--unblock`. Arguments are in the form of a CSV. Returns the equivalent of `adctl service list blocked`.
 
+    adctl service update -b="yy,reddit" --unblock=4chan
+    {
+        "count": 2,
+        "IDs": [
+            "reddit",
+            "yy"
+        ]
+    }
 
 ### status
+Returns whether protection is enabled, and if it's disabled, whether there's a duration.
 
-    eric@air ~ % adctl status
-    adguard is enabled
+    adctl % adctl status
+    {
+        "Protection_enabled": true,
+        "Protection_disabled_duration": ""
+    }
 
-### toggle
-Flips from whatever status it is now (enabled | disabled) to the other one. 
+#### disable
+Disables protection. Takes an optional time parameter in [time.Duration](https://pkg.go.dev/time#ParseDuration) format.  
+    adctl status disable
+    {
+        "Protection_enabled": false,
+        "Protection_disabled_duration": ""
+    }
 
-    eric@air adctl % adctl status
-    adguard is enabled
-    eric@air adctl % adctl toggle
-    adguard is disabled
-    eric@air adctl % adctl status
-    adguard is disabled
-    eric@air adctl % adctl toggle
-    adguard is enabled
-    eric@air adctl % adctl status
-    adguard is enabled
+    adctl status disable 2m30s
+    {
+        "Protection_enabled": false,
+        "Protection_disabled_duration": "2m29s"
+    }
 
-If a duration is set on a disable then toggling does not preserve it.
+#### enable
+Enables protection.
 
-    eric@air adctl % adctl disable 1m
-    adguard is disabled for 59s
-    eric@air adctl % adctl toggle
-    adguard is enabled
-    eric@air adctl % adctl toggle
-    adguard is disabled
-    eric@air adctl % adctl status
-    adguard is disabled
+    adctl status enable
+    {
+        "Protection_enabled": true,
+        "Protection_disabled_duration": ""
+    }
+
+#### toggle
+Toggles between protection enabled and disabled.
+
+    adctl status
+    {
+        "Protection_enabled": true,
+        "Protection_disabled_duration": ""
+    }
+    adctl status toggle
+    {
+        "Protection_enabled": false,
+        "Protection_disabled_duration": ""
+    }
+
+    adctl status toggle 
+    {
+        "Protection_enabled": true,
+        "Protection_disabled_duration": ""
+    }
+
