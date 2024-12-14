@@ -1,3 +1,4 @@
 build/*
 adctl
 coverage.out
+dist/
