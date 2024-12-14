@@ -64,5 +64,13 @@ clean:
     rm -f $bin 
     rm -rf dist
 
-install: test
+install: mac
     cp ./$bin ~/bin/
+
+# TODO: prompt for a tag here?
+# not for now
+# git tag -a v0.1.0 -m "first release, test of goreleaser"
+# git push origin v0.1.0
+release: testall
+    rm -rf dist/
+    goreleaser release
