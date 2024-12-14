@@ -12,13 +12,12 @@ coverage:
 run *ARGS: build
     ./$bin {{ ARGS }}
 
-test: mac
+test: 
     go test ./cmd -test.v
 
 testall: test testcli
 
-# TODO: this needs to be rewritten
-testcli:
+testcli: build
     ./$bin status
     ./$bin status enable
     ./$bin status
@@ -40,25 +39,30 @@ fmt:
     goimports -l -w .
     go fmt
 
-linux:
-    GOOS=linux GOARCH=amd64  go build -o build/adctl-linux -ldflags "-s -w" . 
+#linux: 
+#    #GOOS=linux GOARCH=amd64  go build -o build/adctl-linux -ldflags "-s -w" . 
+#
+#mac: 
+#    #GOOS=darwin GOARCH=arm64  go build -o build/adctl-mac-arm -ldflags "-s -w" . 
+#    ln -fs dist/adctl_darwin_arm64_v8.0/adctl ./$bin
+#
+#windows: build
+#    #GOOS=windows GOARCH=amd64  go build -o build/adctl-amd64.exe -ldflags "-s -w" . 
+#    GOOS=windows GOARCH=386  go build -o build/adctl-386.exe -ldflags "-s -w" . 
 
-mac:
-    GOOS=darwin GOARCH=arm64  go build -o build/adctl-mac-arm -ldflags "-s -w" . 
-    ln -fs build/adctl-mac-arm ./$bin
+mac: test
+    goreleaser build --single-target --snapshot --clean
+    ln -fs dist/adctl_darwin_arm64_v8.0/adctl ./$bin
 
-windows:
-    GOOS=windows GOARCH=amd64  go build -o build/adctl-amd64.exe -ldflags "-s -w" . 
-    GOOS=windows GOARCH=386  go build -o build/adctl-386.exe -ldflags "-s -w" . 
-
-build: fmt mac
-
-multibuild: fmt mac linux windows
+build: test
+    goreleaser release --snapshot --clean
+    ln -fs dist/adctl_darwin_arm64_v8.0/adctl ./$bin
 
 clean:
     go clean -testcache
     go mod tidy
-    rm -f $bin adctl-mac-arm adctl-linux
+    rm -f $bin 
+    rm -rf dist
 
 install: test
     cp ./$bin ~/bin/
