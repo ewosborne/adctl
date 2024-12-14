@@ -17,7 +17,7 @@ test:
 
 testall: test testcli
 
-testcli: build
+testcli: mac
     ./$bin status
     ./$bin status enable
     ./$bin status
