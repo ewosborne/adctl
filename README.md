@@ -45,6 +45,7 @@ Almost all of my tests run against an AdGuard Home server, I don't have any fanc
 
 ## CLI
 Here's a picture of the CLI and the [Mermaid source](cli.mermaid).
+
 ![adctl cli](cli.png "adctl CLI").  
 
 ## Examples
