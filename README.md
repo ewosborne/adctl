@@ -137,6 +137,7 @@ Returns whether protection is enabled, and if it's disabled, whether there's a d
 
 #### disable
 Disables protection. Takes an optional time parameter in [time.Duration](https://pkg.go.dev/time#ParseDuration) format.  
+
     adctl status disable
     {
         "Protection_enabled": false,
