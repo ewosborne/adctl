@@ -72,4 +72,5 @@ install: mac
 # git tag -a v0.1.0 -m "first release, test of goreleaser"
 # git push origin v0.1.0
 release: testall
+    rm -rf dist/
     goreleaser release
