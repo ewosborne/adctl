@@ -28,15 +28,20 @@ You need three environment variables:
     ADCTL_HOST="<host:port, e.g., router.example.com:8080>
 
 The username and password are what you'd use to log into the AdGuard Home console. `ADCTL_HOST` is the host and port you use to reach the GUI.  Mine is set to `router:8080` but IP address will work too. AdGuard Home doesn't support auth tokens so hardcoded password is all you get. 
-I plan to add Viper support so `adctl` can get its config from a file, but right now env vars is all there is.
+I might add Viper support so `adctl` can get its config from a file, but right now env vars is all there is.
 
 All output is json and suitable for piping to `jq` and `gron` and such. 
 
+## Installing
+Just grab the right binary for your platform and run it. No external dependencies.
+
 ## Building
-I use [just](https://just.systems/) so everything is in a `justfile`. You can do that too, or just copy the steps from that file and run them by hand. No magic here. `just build` or `go build -ldflags "-s -w" .`, as you like.
+You may want to build from scratch. I use [just](https://just.systems/) to so everything is in a `justfile`, and `goreleaser` so it gets a little complicated. [Check it out](justfile).
+
+You can do that too, or you can just run`go build`.
 
 ## Testing
-All of my tests run against an AdGuard Home server, I don't have any fancy test harnesses or mocks or anything. YMMV but this approach works for me.
+Almost all of my tests run against an AdGuard Home server, I don't have any fancy test harnesses or mocks or anything. YMMV but this approach works for me. They should work for you too.
 
 ## CLI
 Here's a picture of the CLI and the [Mermaid source](cli.mermaid).

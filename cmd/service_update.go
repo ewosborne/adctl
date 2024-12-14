@@ -67,6 +67,9 @@ func computeNewBlocks(currentlyBlocked AllBlockedServices, changes ServiceLists)
 
 	debugLogger.Println("to block", changes.block)
 	for _, svc := range changes.block {
+		if svc == "all" {
+			return nil, fmt.Errorf("cannot block all services")
+		}
 		svcmap[svc] = true
 	}
 
