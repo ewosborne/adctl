@@ -5,22 +5,13 @@
 
 * TUI?
 
-* debug flag
 * verbose - similar to debug.
 * go over all method and data structure and command names and clean them up
 * add a test for missing args on getlogs since that caused a crash
 * output hooks for json, text, gron 
-
-
-1. clean up all commands to conform to the structure like new ones - no passing args[] or cmd.
- * done.
-
-2. tighten up cli keywords, make them clean and obvious. *done I think, maybe minor WIP
-
-3. tests   *old ones ported over and work but I could always use more.
+* add more debugs using debugLogger
 
 4. debugs and verbosity
-  * global enableDebug flag defined, need to start using it
   x do not have verbosity yet, TBD.
 
 5. general code tidiness.
@@ -35,16 +26,7 @@
     * url in help text
     * man page?  ick.  tools to generate it?
     * outputs other than json?  gron?  https://github.com/maahsome/gron
-    * for flags, short and long versions.  
-      * allow/block vs permit/deny vs enable/disable.  ui uses block/unblock.  api just pushes the final list.  so block/unblock?
-      
-    * think real hard about when to have args over flags.  
-    *   service permit/deny all with confirmation?  or just don't do this?  or just disable but not enable all?
-    * what do 12factor apps do?
-    * adjust timeout for network call?  60sec?  pass via flag?
-    * dry run for changes? maybe just for service filters?
+    
     * brew setup?
     https://github.com/fatih/color for color output support
     * list of services/IDs default to json but also have --table?
-    * pre-action status reponses, e.g. "toggling adblock status" before toggle done.
-    * update README
