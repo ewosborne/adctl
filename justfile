@@ -71,6 +71,10 @@ install: mac
 # not for now
 # git tag -a v0.1.0 -m "first release, test of goreleaser"
 # git push origin v0.1.0
-release: testall
+
+# takes two arguments. first is tag (v0.1.0), second is tag description.
+release arg1 arg2: testall
     rm -rf dist/
+    git tag -a {{ arg1 }}  -m "{{ arg2 }}"
+    git push origin {{ arg1 }}
     goreleaser release
