@@ -1,6 +1,10 @@
 package cmd
 
-import "testing"
+import (
+	"testing"
+
+	"github.com/rogpeppe/go-internal/testscript"
+)
 
 func TestEnable(t *testing.T) {
 	// test cmd.enableCommand()
@@ -16,4 +20,13 @@ func TestEnable(t *testing.T) {
 		t.Fatal("enabling didn't return enable status")
 	}
 
+}
+
+func TestEnableCLI(t *testing.T) {
+	testscript.Run(t, testscript.Params{
+		//Dir:   "testdata/script",
+		Setup: setupEnv,
+		Files: []string{"testdata/script/enable.txtar"},
+	},
+	)
 }

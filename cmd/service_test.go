@@ -3,6 +3,8 @@ package cmd
 import (
 	"slices"
 	"testing"
+
+	"github.com/rogpeppe/go-internal/testscript"
 )
 
 func Test_ListAll(t *testing.T) {
@@ -12,6 +14,16 @@ func Test_ListAll(t *testing.T) {
 	}
 
 }
+
+func TestServiceListAll(t *testing.T) {
+	testscript.Run(t, testscript.Params{
+		//Dir:   "testdata/script",
+		Setup: setupEnv,
+		Files: []string{"testdata/script/all-service.txtar"},
+	},
+	)
+}
+
 func Test_ListBlocked(t *testing.T) {
 	_, err := GetBlockedServices()
 	if err != nil {

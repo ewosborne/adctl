@@ -1,6 +1,28 @@
 package cmd
 
-import "testing"
+import (
+	"testing"
+
+	"github.com/rogpeppe/go-internal/testscript"
+)
+
+func TestDisableCLI(t *testing.T) {
+	testscript.Run(t, testscript.Params{
+		//Dir:   "testdata/script",
+		Setup: setupEnv,
+		Files: []string{"testdata/script/disable.txtar"},
+	},
+	)
+}
+
+func TestDisableTimeoutCLI(t *testing.T) {
+	testscript.Run(t, testscript.Params{
+		//Dir:   "testdata/script",
+		Setup: setupEnv,
+		Files: []string{"testdata/script/disable-timeout.txtar"},
+	},
+	)
+}
 
 func TestDisable_Permanent(t *testing.T) {
 	// test cmd.enableCommand()
