@@ -35,3 +35,16 @@ func TestEnableCLI(t *testing.T) {
 	},
 	)
 }
+
+// I could run any parallel read-only tests in here I suppose
+func TestFilterCheck(t *testing.T) {
+	testscript.Run(t, testscript.Params{
+		//Dir:   "testdata/script",
+		Setup: setupEnv,
+		Files: []string{
+			"testdata/script/filter_check_doubleclick.txtar",
+			"testdata/script/filter_check_mit.txtar",
+		},
+	},
+	)
+}

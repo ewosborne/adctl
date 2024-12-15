@@ -1,0 +1,15 @@
+exec adctl filter check www.mit.edu
+cmpenv stdout json.txt
+
+
+-- json.txt --
+{
+  "reason": "NotFilteredNotFound",
+  "rule": "",
+  "rules": [],
+  "service_name": "",
+  "cname": "",
+  "ip_addrs": null,
+  "filter_id": 0
+}
+

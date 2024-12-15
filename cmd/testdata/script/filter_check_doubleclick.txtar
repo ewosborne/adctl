@@ -1,0 +1,20 @@
+exec adctl filter check www.doubleclick.net
+cmpenv stdout json.txt
+
+
+-- json.txt --
+{
+  "reason": "FilteredBlackList",
+  "rule": "||doubleclick.net^",
+  "rules": [
+    {
+      "text": "||doubleclick.net^",
+      "filter_list_id": 1732762628
+    }
+  ],
+  "service_name": "",
+  "cname": "",
+  "ip_addrs": null,
+  "filter_id": 1732762628
+}
+
