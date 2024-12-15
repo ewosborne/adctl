@@ -1,0 +1,8 @@
+exec adctl status disable
+cmpenv stdout json.txt
+
+-- json.txt --
+{
+ "Protection_enabled": false,
+ "Protection_disabled_duration": ""
+}

@@ -77,6 +77,6 @@ install: mac
 release arg1 arg2: testall
     rm -rf dist/
     #git tag -a {{ arg1 }} -m "{{ arg2 }}"
-    git tag {{ arg1 }
+    git tag {{ arg1 }}
     git push origin {{ arg1 }}
     goreleaser release
