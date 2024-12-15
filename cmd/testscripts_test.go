@@ -27,6 +27,24 @@ func TestDisableCLI(t *testing.T) {
 	)
 }
 
+func TestServiceListAll(t *testing.T) {
+	testscript.Run(t, testscript.Params{
+		//Dir:   "testdata/script",
+		Setup: setupEnv,
+		Files: []string{"testdata/script/all-service.txtar"},
+	},
+	)
+}
+
+func TestDisableTimeoutCLI(t *testing.T) {
+	testscript.Run(t, testscript.Params{
+		//Dir:   "testdata/script",
+		Setup: setupEnv,
+		Files: []string{"testdata/script/disable-timeout.txtar"},
+	},
+	)
+}
+
 func TestEnableCLI(t *testing.T) {
 	testscript.Run(t, testscript.Params{
 		//Dir:   "testdata/script",

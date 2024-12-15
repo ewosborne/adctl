@@ -13,6 +13,9 @@ run *ARGS: build
     ./$bin {{ ARGS }}
 
 test: 
+    go test ./cmd
+
+testv:
     go test ./cmd -test.v
 
 testall: test testcli

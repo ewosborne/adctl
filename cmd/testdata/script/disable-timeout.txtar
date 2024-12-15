@@ -1,0 +1,10 @@
+exec adctl status disable 30s
+grep ".*duration.*2.s" json.txt
+exec adctl status enable
+
+
+-- json.txt --
+{
+ "Protection_enabled": false,
+ "Protection_disabled_duration": "29s"
+}
