@@ -16,8 +16,8 @@ func setupEnv(env *testscript.Env) error {
 
 // note: need to run all these seperately because I think there's some
 //
-//		concurrency if I run them all via Run:Dir: and I don't know how to
-//	 turn it off
+//	concurrency if I run them all via Run:Dir: and I don't know how to
+//	turn it off
 func TestDisableCLI(t *testing.T) {
 	testscript.Run(t, testscript.Params{
 		//Dir:   "testdata/script",
