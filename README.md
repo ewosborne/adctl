@@ -27,7 +27,8 @@ You need three environment variables:
     ADCTL_PASSWORD="<password>"
     ADCTL_HOST="<host:port, e.g., router.example.com:8080>
 
-The username and password are what you'd use to log into the AdGuard Home console. `ADCTL_HOST` is the host and port you use to reach the GUI.  Mine is set to `router:8080` but IP address will work too. AdGuard Home doesn't support auth tokens so hardcoded password is all you get. 
+The username and password are what you'd use to log into the AdGuard Home console. `ADCTL_HOST` is the host and port you use to reach the GUI.  Mine is set to `router:8080` but IP address will work too. AdGuard Home doesn't support auth tokens so hardcoded password is all you get. Also, the connection to the server is HTTP, not HTTPS, so your password is sent in cleartext. Use a unique password! 
+
 I might add Viper support so `adctl` can get its config from a file, but right now env vars is all there is.
 
 All output is json and suitable for piping to `jq` and `gron` and such. 
