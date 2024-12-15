@@ -76,6 +76,7 @@ install: mac
 #  TODO: what do I do if I have uncommitted changes?  
 release arg1 arg2: testall
     rm -rf dist/
-    git tag -a {{ arg1 }} -m "{{ arg2 }}"
+    #git tag -a {{ arg1 }} -m "{{ arg2 }}"
+    git tag {{ arg1 }
     git push origin {{ arg1 }}
     goreleaser release
