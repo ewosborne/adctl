@@ -7,6 +7,8 @@ import (
 	"github.com/rogpeppe/go-internal/testscript"
 )
 
+// TODO: testscript
+
 func Test_ListAll(t *testing.T) {
 	_, err := GetAllServices()
 	if err != nil {

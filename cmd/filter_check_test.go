@@ -6,7 +6,7 @@ import (
 	"github.com/rogpeppe/go-internal/testscript"
 )
 
-func Test_Checkfilter(t *testing.T) {
+func TestFilterCheck(t *testing.T) {
 	cfa := CheckFilterArgs{name: "www.doubleclick.net"}
 	_, err := GetFilter(cfa)
 	if err != nil {
@@ -15,7 +15,7 @@ func Test_Checkfilter(t *testing.T) {
 }
 
 // I could run any parallel read-only tests in here I suppose
-func TestFilterCheck(t *testing.T) {
+func TestFilterCheckCLI(t *testing.T) {
 	testscript.Run(t, testscript.Params{
 		//Dir:   "testdata/script",
 		Setup: setupEnv,
