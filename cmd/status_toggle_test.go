@@ -2,6 +2,7 @@ package cmd
 
 import "testing"
 
+// TODO: testscript which just looks for valid json
 func TestToggle(t *testing.T) {
 	// get initial state
 	// toggle to other, make sure it sticks

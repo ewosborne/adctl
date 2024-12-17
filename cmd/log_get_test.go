@@ -13,7 +13,9 @@ type ValidQueryResult struct {
 
 var TestLogArgsInstance = LogArgs{limit: "10", filter: "all"}
 
-func Test_Getlog(t *testing.T) {
+// TODO: tescript test.  maybe 'adctl log get 5' then validate length and json and that there's an 'oldest'?
+
+func Test_LogGet(t *testing.T) {
 	// test only a small log thing
 	log, err := getLogCommand(TestLogArgsInstance)
 
@@ -21,13 +23,12 @@ func Test_Getlog(t *testing.T) {
 		t.Error("error getting getLogCommand", err)
 	}
 
-	// would be nice to test for number of entries but I don't know how.
 	if !json.Valid(log.Bytes()) {
 		t.Error("invalid json log", err)
 	}
 }
 
-func Test_Getlog_Filter(t *testing.T) {
+func Test_LogGet_Filter(t *testing.T) {
 
 	// test with an allowed and disallowed filter.
 	// filter comes from the variable declared as a flag
@@ -57,7 +58,7 @@ func Test_Getlog_Filter(t *testing.T) {
 	}
 
 }
-func Test_Getlog_Search(t *testing.T) {
+func Test_LogGet_Search(t *testing.T) {
 
 	var err error
 
