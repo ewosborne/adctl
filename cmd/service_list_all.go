@@ -124,5 +124,5 @@ func GetAllServices() (ServiceMap, error) {
 }
 
 func init() {
-	listCmd.AddCommand(serviceListAllCmd)
+	serviceListCmd.AddCommand(serviceListAllCmd)
 }

@@ -9,7 +9,8 @@ coverage:
     go test ./cmd -coverprofile=coverage.out
     go tool cover -html=coverage.out
 
-run *ARGS: build
+#run *ARGS: build
+run *ARGS: mac-notest
     ./$bin {{ ARGS }}
 
 test: 
@@ -43,6 +44,10 @@ fmt:
     go fmt
 
 mac: test
+    goreleaser build --single-target --snapshot --clean
+    ln -fs dist/adctl_darwin_arm64_v8.0/adctl ./$bin
+
+mac-notest:
     goreleaser build --single-target --snapshot --clean
     ln -fs dist/adctl_darwin_arm64_v8.0/adctl ./$bin
 

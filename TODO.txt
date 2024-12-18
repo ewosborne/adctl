@@ -10,6 +10,8 @@ and testscripts and other tests for all four.
 
 * parental, safesearch, safebrowsing support
 * tests of all the blocking and unblocking.
+* merge all of the subcommand files into one
+  service, service_list, etc..  getting too messy.
 
 
 * TUI?
