@@ -4,6 +4,8 @@
   service, service_list, etc..  getting too messy.
 * add contexts to stuff?  
 
+** fix build tool pathing so I don't have to do qinstall before every test!!!
+
 
 * TUI?
 
