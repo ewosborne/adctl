@@ -8,15 +8,26 @@ import (
 	"github.com/spf13/cobra"
 )
 
-// rewriteDeleteCmd represents the delete command
+var rewriteAddCmd = &cobra.Command{
+	Use:   "add",
+	Short: "Add a rewrite",
+	RunE: func(cmd *cobra.Command, args []string) error {
+		return RewriteCommand(cmd, args, true)
+	},
+}
+
 var rewriteDeleteCmd = &cobra.Command{
 	Use:   "delete",
 	Short: "Delete a rewrite",
-	RunE:  RewriteDeleteCmdE,
+	RunE: func(cmd *cobra.Command, args []string) error {
+		return RewriteCommand(cmd, args, true)
+	},
 }
 
-func RewriteDeleteCmdE(cmd *cobra.Command, args []string) error {
-	//  takes a domain and an answer. API requires both. I could get clever about matching on existing domain and deleting its answer but $$LATER. TODO.
+func RewriteCommand(cmd *cobra.Command, args []string, add bool) error {
+
+	// if add is true then add
+	// if add is false then delete
 
 	domain, err := cmd.Flags().GetString("domain")
 	if err != nil {
@@ -28,17 +39,19 @@ func RewriteDeleteCmdE(cmd *cobra.Command, args []string) error {
 		return err
 	}
 
-	err = deleteRewrite(domain, answer)
+	err = doRewriteAction(domain, answer, add)
 	if err != nil {
 		return err
 	}
 	printRewriteList()
 	return nil
+
 }
 
-func deleteRewrite(domain string, answer string) error {
+func doRewriteAction(domain string, answer string, add bool) error {
 
 	var requestBody = make(map[string]any)
+	var err error
 	requestBody["domain"] = domain
 	requestBody["answer"] = answer
 
@@ -47,12 +60,25 @@ func deleteRewrite(domain string, answer string) error {
 		return err
 	}
 
-	baseURL.Path = "/control/rewrite/delete"
+	switch add {
+	case true:
+		baseURL.Path = "/control/rewrite/add"
+	case false:
+		baseURL.Path = "/control/rewrite/delete"
+	}
 
 	enableQuery := common.CommandArgs{
 		Method:      "POST",
 		URL:         baseURL,
 		RequestBody: requestBody,
+	}
+
+	if add {
+		// delete before adding because adding isn't idempotent.
+		err = doRewriteAction(domain, answer, false)
+		if err != nil {
+			return err
+		}
 	}
 
 	_, err = common.SendCommand(enableQuery)
@@ -61,11 +87,4 @@ func deleteRewrite(domain string, answer string) error {
 	}
 
 	return nil
-}
-
-// TODO add '--all' maybe?  to delete everything?
-func init() {
-	rewriteCmd.AddCommand(rewriteDeleteCmd)
-	rewriteDeleteCmd.Flags().String("domain", "", "Name or wildcard to match on")
-	rewriteDeleteCmd.Flags().String("answer", "", "Answer to supply in response. IP address, domain name, or some weird special stuff around A and AAAA.")
 }
