@@ -34,7 +34,7 @@ func NewServiceMap() ServiceMap {
 // serviceListAllCmd represents the all command
 var serviceListAllCmd = &cobra.Command{
 	Use:   "all",
-	Short: "A brief description of your command",
+	Short: "List all blockable services",
 	RunE:  ListAllCmdE,
 }
 

@@ -14,7 +14,7 @@ import (
 // serviceListBlockedCmd represents the blocked command
 var serviceListBlockedCmd = &cobra.Command{
 	Use:   "blocked",
-	Short: "A brief description of your command",
+	Short: "List all blocked services",
 	RunE:  serviceListBlockedCmdE,
 }
 

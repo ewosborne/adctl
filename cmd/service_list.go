@@ -10,7 +10,7 @@ import (
 // serviceListCmd represents the list command
 var serviceListCmd = &cobra.Command{
 	Use:   "list",
-	Short: "A brief description of your command",
+	Short: "List all blockable or blocked services",
 }
 
 func init() {
