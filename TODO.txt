@@ -1,7 +1,7 @@
 
 
 for rewrites /rewrite/<noun>
-get list
+get list *done
 post add
 post delete
 put update
@@ -12,6 +12,7 @@ and testscripts and other tests for all four.
 * tests of all the blocking and unblocking.
 * merge all of the subcommand files into one
   service, service_list, etc..  getting too messy.
+* add contexts to stuff?  
 
 
 * TUI?

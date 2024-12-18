@@ -15,6 +15,16 @@ coverage:
 run *ARGS: build
     ./$bin {{ ARGS }}
 
+qbuild:
+    goreleaser build --single-target --snapshot --clean
+    ln -fs dist/adctl_darwin_arm64_v8.0/adctl ./$bin
+
+qrun *ARGS: qbuild
+    ./$bin {{ ARGS }}
+    
+qinstall: qbuild
+    cp ./$bin ~/bin/
+
 test: 
     go test ./cmd
 

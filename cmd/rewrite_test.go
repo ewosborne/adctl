@@ -13,3 +13,19 @@ func TestRewriteListCLI(t *testing.T) {
 	},
 	)
 }
+
+func TestRewriteDeleteCLI(t *testing.T) {
+	testscript.Run(t, testscript.Params{
+		Setup: setupEnv,
+		Files: []string{"testdata/script/rewrite_delete.txtar"},
+	},
+	)
+}
+
+func TestRewriteAddCLI(t *testing.T) {
+	testscript.Run(t, testscript.Params{
+		Setup: setupEnv,
+		Files: []string{"testdata/script/rewrite_add.txtar"},
+	},
+	)
+}
