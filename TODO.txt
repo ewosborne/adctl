@@ -1,4 +1,13 @@
 
+
+for rewrites /rewrite/<noun>
+get list
+post add
+post delete
+put update
+
+and testscripts and other tests for all four.
+
 * parental, safesearch, safebrowsing support
 * tests of all the blocking and unblocking.
 
