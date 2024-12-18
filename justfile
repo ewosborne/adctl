@@ -2,6 +2,10 @@ export bin := "adctl"
 
 set dotenv-load := false
 
+# test for quoted args to work, didn't do anything. doesn't matter much.
+#set positional-arguments
+
+
 default:
     just --list
 
@@ -9,8 +13,21 @@ coverage:
     go test ./cmd -coverprofile=coverage.out
     go tool cover -html=coverage.out
 
+
+# TODO Need to clean all this up.
+#run *ARGS: mac-notest
 run *ARGS: build
     ./$bin {{ ARGS }}
+
+qbuild:
+    goreleaser build --single-target --snapshot --clean
+    ln -fs dist/adctl_darwin_arm64_v8.0/adctl ./$bin
+
+qrun *ARGS: qbuild
+    ./$bin {{ ARGS }}
+    
+qinstall: qbuild
+    cp ./$bin ~/bin/
 
 test: 
     go test ./cmd
@@ -42,18 +59,11 @@ fmt:
     goimports -l -w .
     go fmt
 
-#linux: 
-#    #GOOS=linux GOARCH=amd64  go build -o build/adctl-linux -ldflags "-s -w" . 
-#
-#mac: 
-#    #GOOS=darwin GOARCH=arm64  go build -o build/adctl-mac-arm -ldflags "-s -w" . 
-#    ln -fs dist/adctl_darwin_arm64_v8.0/adctl ./$bin
-#
-#windows: build
-#    #GOOS=windows GOARCH=amd64  go build -o build/adctl-amd64.exe -ldflags "-s -w" . 
-#    GOOS=windows GOARCH=386  go build -o build/adctl-386.exe -ldflags "-s -w" . 
-
 mac: test
+    goreleaser build --single-target --snapshot --clean
+    ln -fs dist/adctl_darwin_arm64_v8.0/adctl ./$bin
+
+mac-notest:
     goreleaser build --single-target --snapshot --clean
     ln -fs dist/adctl_darwin_arm64_v8.0/adctl ./$bin
 
