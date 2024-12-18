@@ -28,7 +28,11 @@ qrun *ARGS: qbuild
 qinstall: qbuild
     cp ./$bin ~/bin/
 
-test:
+# TODO I hate that I need to install this in my path first
+#  but I can't figure out how to get tescript to use ./adctl and stop searching my path
+#  also tried 'env PATH=$PATH:$PWD' and that didn't work
+#  urgh.
+test: qinstall
     go test ./cmd
 
 testv:
