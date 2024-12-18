@@ -1,5 +1,5 @@
 exec adctl rewrite list
-cmpenv stdout json.txt
+cmp stdout json.txt
 
 -- json.txt --
 [
