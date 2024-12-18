@@ -89,7 +89,53 @@ Pulls the last N logs (default is 500).  Takes an optional argument of the numbe
     ],
     "oldest": "2024-12-13T14:50:29.166803105-05:00"
     }
-     
+
+### rewrite
+Lists, adds, and deletes DNS rewrites. Three subcommands get you there: `list`, `add`, `delete`. Here's an example of all three, starting from an empty rewrite list.
+**PLEASE NOTE**: this is beta stuff and not well tested. Also, the AdGuard Home API isn't very picky about what you send it, you can block a domain called 'foo bar' and return a result called 'bar baz' if you really want to. I haven't put much effort into making the CLI client smart.
+
+`add` and `delete` take two flags, `--domain` and `--answer`.  These are just text fields I pass blindly on to AdGuard Home, so it should work the same as putting that text into the GUI.  I've seen some weird problems with quoting and escaping so if you're trying to get too clever with this, double check on the UI to make sure it's doing what you want.  But the basics work.
+
+    erico@Erics-MacBook-Air ~ % adctl rewrite list
+    []
+
+    erico@Erics-MacBook-Air ~ % host www.example.io
+    NAME       	TYPE	CLASS	TTL 	ADDRESS                       	NAMESERVER    	STATUS
+    notcom.com.	SOA 	IN   	956s	brianna.ns.cloudflare.com.    	192.168.1.1:53	NXDOMAIN
+                                        dns.cloudflare.com. 2359842202
+                                        10000 2400 604800 1800
+
+    erico@Erics-MacBook-Air ~ % adctl rewrite add --domain www.example.io --answer 192.168.1.1
+    [
+        {
+            "answer": "192.168.1.1",
+            "domain": "www.example.io"
+        }
+    ]
+
+    erico@Erics-MacBook-Air ~ % adctl rewrite list
+    [
+        {
+            "answer": "192.168.1.1",
+            "domain": "www.example.io"
+        }
+    ]
+
+    erico@Erics-MacBook-Air ~ % host www.example.io
+    NAME           	TYPE	CLASS	TTL	ADDRESS    	NAMESERVER
+    www.example.io.	A   	IN   	10s	192.168.1.1	192.168.1.1:53
+
+    erico@Erics-MacBook-Air ~ % adctl rewrite delete --domain www.example.io --answer 192.168.1.1
+    []
+
+    erico@Erics-MacBook-Air ~ % host www.example.io
+    NAME       	TYPE	CLASS	TTL 	ADDRESS                       	NAMESERVER    	STATUS
+    notcom.com.	SOA 	IN   	926s	brianna.ns.cloudflare.com.    	192.168.1.1:53	NXDOMAIN
+                                        dns.cloudflare.com. 2359842202
+                                        10000 2400 604800 1800
+
+The API also has an `update` method but it looks a little messy and I don't see much difference between an update and a delete/add so I don't plan to implement it unless I find a good reason.
+
 ### service
 Shows and controls blocked services.
 #### list

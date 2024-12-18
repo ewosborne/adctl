@@ -7,12 +7,12 @@ import (
 	"github.com/spf13/cobra"
 )
 
-// listCmd represents the list command
-var listCmd = &cobra.Command{
+// serviceListCmd represents the list command
+var serviceListCmd = &cobra.Command{
 	Use:   "list",
 	Short: "A brief description of your command",
 }
 
 func init() {
-	servicesCmd.AddCommand(listCmd)
+	servicesCmd.AddCommand(serviceListCmd)
 }
