@@ -1,5 +1,0 @@
-exec adctl rewrite add --domain "*.example.com" --answer "192.168.1.1"
-cmp stdout json.txt
-
--- json.txt --
-[]

@@ -2,6 +2,10 @@ export bin := "adctl"
 
 set dotenv-load := false
 
+# test for quoted args to work, didn't do anything. doesn't matter much.
+#set positional-arguments
+
+
 default:
     just --list
 
