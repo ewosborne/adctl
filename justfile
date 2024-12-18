@@ -5,7 +5,6 @@ set dotenv-load := false
 # test for quoted args to work, didn't do anything. doesn't matter much.
 #set positional-arguments
 
-
 default:
     just --list
 
@@ -13,9 +12,9 @@ coverage:
     go test ./cmd -coverprofile=coverage.out
     go tool cover -html=coverage.out
 
-
 # TODO Need to clean all this up.
-#run *ARGS: mac-notest
+
+# run *ARGS: mac-notest
 run *ARGS: build
     ./$bin {{ ARGS }}
 
@@ -25,11 +24,11 @@ qbuild:
 
 qrun *ARGS: qbuild
     ./$bin {{ ARGS }}
-    
+
 qinstall: qbuild
     cp ./$bin ~/bin/
 
-test: 
+test:
     go test ./cmd
 
 testv:
@@ -84,9 +83,9 @@ install: mac
 # not for now
 # git tag -a v0.1.0 -m "first release, test of goreleaser"
 # git push origin v0.1.0
-
 # takes two arguments. first is tag (v0.1.0), second is tag description.
-#  TODO: what do I do if I have uncommitted changes?  
+
+# TODO: what do I do if I have uncommitted changes?
 release arg1 arg2: testall
     rm -rf dist/
     #git tag -a {{ arg1 }} -m "{{ arg2 }}"
