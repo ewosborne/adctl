@@ -9,8 +9,10 @@ coverage:
     go test ./cmd -coverprofile=coverage.out
     go tool cover -html=coverage.out
 
-#run *ARGS: build
-run *ARGS: mac-notest
+
+# TODO Need to clean all this up.
+#run *ARGS: mac-notest
+run *ARGS: build
     ./$bin {{ ARGS }}
 
 test: 
