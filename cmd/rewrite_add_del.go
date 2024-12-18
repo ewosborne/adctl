@@ -4,8 +4,6 @@ Copyright © 2024 NAME HERE <EMAIL ADDRESS>
 package cmd
 
 import (
-	"fmt"
-
 	"github.com/ewosborne/adctl/common"
 	"github.com/spf13/cobra"
 )
@@ -57,8 +55,6 @@ func doRewriteAction(domain string, answer string, add bool) error {
 	requestBody["domain"] = domain
 	requestBody["answer"] = answer
 
-	fmt.Println("in dra, add is", add)
-
 	baseURL, err := common.GetBaseURL()
 	if err != nil {
 		return err
@@ -85,7 +81,6 @@ func doRewriteAction(domain string, answer string, add bool) error {
 		}
 	}
 
-	fmt.Println("running query", enableQuery)
 	_, err = common.SendCommand(enableQuery)
 	if err != nil {
 		return err
