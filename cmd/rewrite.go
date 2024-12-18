@@ -11,13 +11,7 @@ import (
 var rewriteCmd = &cobra.Command{
 	Use:   "rewrite",
 	Short: "Control DNS rewrites",
-	RunE:  RewriteCmdE,
-}
-
-func RewriteCmdE(cmd *cobra.Command, args []string) error {
-	// doesn't do much by itself.
-
-	return nil
+	Long: "Add, delete, or list DNS rewrites.",
 }
 
 func init() {
