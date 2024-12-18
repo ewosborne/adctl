@@ -13,6 +13,7 @@ import (
 )
 
 var debugLogger *log.Logger
+var version string
 
 // var outputFormat string
 var enableDebug bool
@@ -20,7 +21,7 @@ var enableDebug bool
 // rootCmd represents the base command when called without any subcommands
 var rootCmd = &cobra.Command{
 	Use:     "adctl",
-	Version: "0.5.0",
+	Version: version,
 	Long:    `adctl lets you control AdGuard Home from the CLI. Documentation and source: https://github.com/ewosborne/adctl`,
 }
 
