@@ -13,16 +13,14 @@ import (
 )
 
 var debugLogger *log.Logger
-var version string
 
 // var outputFormat string
 var enableDebug bool
 
 // rootCmd represents the base command when called without any subcommands
 var rootCmd = &cobra.Command{
-	Use:     "adctl",
-	Version: version,
-	Long:    `adctl lets you control AdGuard Home from the CLI. Documentation and source: https://github.com/ewosborne/adctl`,
+	Use:  "adctl",
+	Long: `adctl lets you control AdGuard Home from the CLI. Documentation and source: https://github.com/ewosborne/adctl`,
 }
 
 // Execute adds all child commands to the root command and sets flags appropriately.
@@ -32,6 +30,10 @@ func Execute() {
 	if err != nil {
 		os.Exit(1)
 	}
+}
+
+func SetVersionInfo(version string) {
+	rootCmd.Version = version
 }
 
 func init() {
