@@ -4,6 +4,8 @@ Copyright © 2024 NAME HERE <EMAIL ADDRESS>
 package cmd
 
 import (
+	"fmt"
+
 	"github.com/ewosborne/adctl/common"
 	"github.com/spf13/cobra"
 )
@@ -20,7 +22,7 @@ var rewriteDeleteCmd = &cobra.Command{
 	Use:   "delete",
 	Short: "Delete a rewrite",
 	RunE: func(cmd *cobra.Command, args []string) error {
-		return RewriteCommand(cmd, args, true)
+		return RewriteCommand(cmd, args, false)
 	},
 }
 
@@ -55,6 +57,8 @@ func doRewriteAction(domain string, answer string, add bool) error {
 	requestBody["domain"] = domain
 	requestBody["answer"] = answer
 
+	fmt.Println("in dra, add is", add)
+
 	baseURL, err := common.GetBaseURL()
 	if err != nil {
 		return err
@@ -81,10 +85,23 @@ func doRewriteAction(domain string, answer string, add bool) error {
 		}
 	}
 
+	fmt.Println("running query", enableQuery)
 	_, err = common.SendCommand(enableQuery)
 	if err != nil {
 		return err
 	}
 
 	return nil
+}
+
+func init() {
+	rewriteCmd.AddCommand(rewriteAddCmd)
+	rewriteCmd.AddCommand(rewriteDeleteCmd)
+
+	rewriteAddCmd.Flags().String("domain", "", "Name or wildcard to match on")
+	rewriteAddCmd.Flags().String("answer", "", "Answer to supply in response. IP address, domain name, or some weird special stuff around A and AAAA.")
+
+	rewriteDeleteCmd.Flags().String("domain", "", "Name or wildcard to match on")
+	rewriteDeleteCmd.Flags().String("answer", "", "Answer to supply in response. IP address, domain name, or some weird special stuff around A and AAAA.")
+
 }
