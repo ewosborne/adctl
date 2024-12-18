@@ -1,15 +1,5 @@
 
-
-for rewrites /rewrite/<noun>
-get list *done
-post add
-post delete
-put update
-
-and testscripts and other tests for all four.
-
 * parental, safesearch, safebrowsing support
-* tests of all the blocking and unblocking.
 * merge all of the subcommand files into one
   service, service_list, etc..  getting too messy.
 * add contexts to stuff?  
@@ -30,7 +20,6 @@ and testscripts and other tests for all four.
 
 
     * .config/adctl?  viper can do this?  
-    * github actions to build releases 
     * change all printfs to json with flags for text and gron.
     * logging and print to stderr if I need to do any?
     * clean up error formatting?
