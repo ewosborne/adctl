@@ -1,0 +1,7 @@
+exec adctl rewrite list
+cmp stdout json.txt
+
+
+
+-- json.txt --
+[]
