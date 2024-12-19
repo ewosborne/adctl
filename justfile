@@ -31,8 +31,9 @@ qinstall: qbuild
 # TODO I hate that I need to install this in my path first
 #  but I can't figure out how to get tescript to use ./adctl and stop searching my path
 #  also tried 'env PATH=$PATH:$PWD' and that didn't work
-#  urgh.
-test: 
+
+# urgh.
+test:
     go test ./cmd
 
 testv:
@@ -42,20 +43,21 @@ testall: test testcli
 
 testcli: mac
     ./$bin status
-    ./$bin status enable
-    ./$bin status
-    ./$bin status disable
-    ./$bin status
-    ./$bin status disable 15s
-    ./$bin status
-    ./$bin status enable
-    ./$bin status
-    ./$bin status toggle
-    ./$bin status
-    ./$bin status toggle
-    ./$bin status
-    ./$bin log get | jq '.oldest'
-    ./$bin log get 42 | jq '.data | length'
+
+#    ./$bin status enable
+#    ./$bin status
+#    ./$bin status disable
+#    ./$bin status
+#    ./$bin status disable 15s
+#    ./$bin status
+#    ./$bin status enable
+#    ./$bin status
+#    ./$bin status toggle
+#    ./$bin status
+#    ./$bin status toggle
+#    ./$bin status
+#    ./$bin log get | jq '.oldest'
+#    ./$bin log get 42 | jq '.data | length'
 
 fmt:
     just --unstable --fmt

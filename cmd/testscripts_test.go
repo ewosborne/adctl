@@ -19,6 +19,18 @@ func TestMain(m *testing.M) {
 		"adctl": TestscriptEntryPoint,
 	}))
 }
+// // for new test development to run solo
+// func Test_DevBox(t *testing.T) {
+// 	testscript.Run(t, testscript.Params{
+// 		//Dir:   "testdata/script",
+// 		Setup: setupEnv,
+// 		Files: []string{
+// 			"testdata/script/log.txtar",
+
+// 		},
+// 	},
+// 	)
+// }
 
 // all tests which can be run in parallel can go here.
 func Test_AllReadonly(t *testing.T) {
@@ -30,10 +42,14 @@ func Test_AllReadonly(t *testing.T) {
 			"testdata/script/filter_check_mit.txtar",
 			"testdata/script/all_service.txtar",
 			"testdata/script/rewrite_list.txtar",
+			"testdata/script/log.txtar",
+
 		},
 	},
 	)
 }
+
+
 
 /* everything below here are tests which read and write and so need to not be run in parallel */
 
@@ -61,7 +77,7 @@ func TestEnableCLI(t *testing.T) {
 	testscript.Run(t, testscript.Params{
 		//Dir:   "testdata/script",
 		Setup: setupEnv,
-		Files: []string{"testdata/script/enable.txtar"},
+		Files: []string{"testdata/script/service-enable.txtar"},
 	},
 	)
 }
@@ -70,7 +86,7 @@ func TestDisableCLI(t *testing.T) {
 	testscript.Run(t, testscript.Params{
 		//Dir:   "testdata/script",
 		Setup: setupEnv,
-		Files: []string{"testdata/script/disable.txtar"},
+		Files: []string{"testdata/script/service-disable.txtar"},
 	},
 	)
 }

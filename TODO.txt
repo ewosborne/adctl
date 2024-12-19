@@ -3,6 +3,8 @@
 * add contexts to stuff?  
 * TUI?
 
+* some easy way to enable/disable adblock entire per client?  need ip address.  or <self> and get clever about it?
+
 * verbose - similar to debug.
 * go over all method and data structure and command names and clean them up
 * add a test for missing args on getlogs since that caused a crash

@@ -1,0 +1,29 @@
+{
+  "data": [
+    {
+      "answer_dnssec": false,
+      "cached": true,
+      "client": "192.168.1.189",
+      "client_info": {
+        "whois": {},
+        "name": "",
+        "disallowed_rule": "192.168.1.189",
+        "disallowed": false
+      },
+      "client_proto": "",
+      "elapsedMs": "0.048686",
+      "question": {
+        "class": "IN",
+        "name": "ssl.gstatic.com",
+        "type": "HTTPS"
+      },
+      "reason": "NotFilteredNotFound",
+      "rules": [],
+      "status": "NOERROR",
+      "time": "2024-12-19T09:29:16.825074559-05:00",
+      "upstream": "127.0.0.1:5353"
+    }
+  ],
+  "oldest": "2024-12-19T09:29:16.825074559-05:00"
+}
+
