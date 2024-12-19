@@ -41,8 +41,10 @@ testv:
 
 testall: test testcli
 
+# TODO: removed a lot of tests because they're in testscripts now.
 testcli: mac
     ./$bin status
+    ./$bin log get 42 | jq '.data | length'
 
 #    ./$bin status enable
 #    ./$bin status
@@ -57,7 +59,6 @@ testcli: mac
 #    ./$bin status toggle
 #    ./$bin status
 #    ./$bin log get | jq '.oldest'
-#    ./$bin log get 42 | jq '.data | length'
 
 fmt:
     just --unstable --fmt

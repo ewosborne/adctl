@@ -20,7 +20,6 @@ func TestMain(m *testing.M) {
 	}))
 }
 
-
 // // for new test development to run solo
 // func Test_DevBox(t *testing.T) {
 // 	testscript.Run(t, testscript.Params{
@@ -45,13 +44,10 @@ func Test_AllReadonly(t *testing.T) {
 			"testdata/script/all_service.txtar",
 			"testdata/script/rewrite_list.txtar",
 			"testdata/script/log.txtar",
-
 		},
 	},
 	)
 }
-
-
 
 /* everything below here are tests which read and write and so need to not be run in parallel */
 
@@ -97,7 +93,7 @@ func TestDisableTimeoutCLI(t *testing.T) {
 	testscript.Run(t, testscript.Params{
 		//Dir:   "testdata/script",
 		Setup: setupEnv,
-		Files: []string{"testdata/script/disable-timeout.txtar"},
+		Files: []string{"testdata/script/service-disable-timeout.txtar"},
 	},
 	)
 }
