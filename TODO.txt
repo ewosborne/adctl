@@ -1,9 +1,6 @@
 
 * parental, safesearch, safebrowsing support
 * add contexts to stuff?  
-
-* auto-update mermaid picture as part of build or deploy?
-
 * TUI?
 
 * verbose - similar to debug.
