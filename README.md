@@ -50,6 +50,7 @@ flowchart LR
     adctl---filter---check---id0["*string*"]
     adctl---log---get---id1["*optional* number of entries"]
     adctl---service
+
     service---list
     list---all
     list---blocked
@@ -62,6 +63,15 @@ flowchart LR
     disable---id4("*optional* disable time in time.Duration format")
     status---enable
     status---toggle
+
+    adctl---rewrite
+    rewrite---add
+    rewrite---delete
+    rewrite---id6("list")
+
+    add---id5("--answer and --domain flags")
+    delete---id5
+
 ```
 
 ## Examples
