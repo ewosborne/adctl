@@ -45,9 +45,24 @@ You can do that too, or you can just run`go build`.
 Almost all of my tests run against an AdGuard Home server, I don't have any fancy test harnesses or mocks or anything. YMMV but this approach works for me. They should work for you too.
 
 ## CLI
-Here's a picture of the CLI and the [Mermaid source](cli.mermaid).
+```mermaid
+flowchart LR
+    adctl---filter---check---id0["*string*"]
+    adctl---log---get---id1["*optional* number of entries"]
+    adctl---service
+    service---list
+    list---all
+    list---blocked
+    service---update
+    update---id2("-b or --blocked")
+    update---id3("-u or --unblocked")
 
-![adctl cli](cli.png "adctl CLI").  
+    adctl---status
+    status---disable
+    disable---id4("*optional* disable time in time.Duration format")
+    status---enable
+    status---toggle
+```
 
 ## Examples
 See the CLI itself for all the options and usage, but here's the general idea.
