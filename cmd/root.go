@@ -32,6 +32,11 @@ func Execute() {
 	}
 }
 
+func WrapExecute() int {
+	Execute()
+	return 0
+}
+
 func SetVersionInfo(version string) {
 	rootCmd.Version = version
 }
