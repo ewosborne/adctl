@@ -32,7 +32,7 @@ func Execute() {
 	}
 }
 
-func WrapExecute() int {
+func TestscriptEntryPoint() int {
 	Execute()
 	return 0
 }

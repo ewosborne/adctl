@@ -16,7 +16,7 @@ func setupEnv(env *testscript.Env) error {
 
 func TestMain(m *testing.M) {
 	os.Exit(testscript.RunMain(m, map[string]func() int{
-		"adctl": WrapExecute,
+		"adctl": TestscriptEntryPoint,
 	}))
 }
 
