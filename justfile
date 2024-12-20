@@ -93,9 +93,8 @@ install: mac
 # takes two arguments. first is tag (v0.1.0), second is tag description.
 
 # TODO: what do I do if I have uncommitted changes?
-release arg1 arg2: testall
+release arg1: testall
     rm -rf dist/
-    #git tag -a {{ arg1 }} -m "{{ arg2 }}"
     git tag {{ arg1 }}
     git push origin {{ arg1 }}
     goreleaser release
