@@ -117,7 +117,7 @@ Pulls the last N logs (default is 500).  Takes an optional argument of the numbe
 
 ### rewrite
 Lists, adds, and deletes DNS rewrites. Three subcommands get you there: `list`, `add`, `delete`. Here's an example of all three, starting from an empty rewrite list.
-**PLEASE NOTE**: this is beta stuff and not well tested. Also, the AdGuard Home API isn't very picky about what you send it, you can block a domain called 'foo bar' and return a result called 'bar baz' if you really want to. I haven't put much effort into making the CLI client smart.
+The AdGuard Home API isn't very picky about what you send it, you can block a domain called 'foo bar' and return a result called 'bar baz' if you really want to. I haven't put much effort into making the CLI client smart.
 
 `add` and `delete` take two flags, `--domain` and `--answer`.  These are just text fields I pass blindly on to AdGuard Home, so it should work the same as putting that text into the GUI.  I've seen some weird problems with quoting and escaping so if you're trying to get too clever with this, double check on the UI to make sure it's doing what you want.  But the basics work.
 
