@@ -18,14 +18,20 @@ type CommandArgs struct {
 }
 
 func GetBaseURL() (url.URL, error) {
-	var ret = url.URL{Scheme: "http"}
-
 	h, err := getHost()
 	if err != nil {
-		return ret, err
+		return url.URL{}, err
 	}
 
-	ret.Host = fmt.Sprint(h)
+	scheme := "http"
+	if len(h) >= 8 && h[:8] == "https://" {
+		scheme = "https"
+		h = h[8:]
+	} else if len(h) >= 7 && h[:7] == "http://" {
+		scheme = "http"
+		h = h[7:]
+	}
+	ret := url.URL{Scheme: scheme, Host: fmt.Sprint(h)}
 	return ret, nil
 
 }
