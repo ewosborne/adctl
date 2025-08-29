@@ -11,25 +11,55 @@
     filter      Check filter for entities
     help        Help about any command
     log         Get logs
+    rewrite     Control DNS rewrites
     service     Alter filtered services
     status      Check and change adblocking status
 
     Flags:
     -d, --debug     Enable debug mode
     -h, --help      help for adctl
-    -v, --version   version for adctl
 
     Use "adctl [command] --help" for more information about a command.
 
-You need three environment variables: 
+## Configuration
+
+You can configure `adctl` using either environment variables or configuration files.
+
+### Environment Variables
 
     ADCTL_USERNAME="<username you use to log into the AdGuard Home web UI>"
     ADCTL_PASSWORD="<password>"
-    ADCTL_HOST="<host:port, e.g., router.example.com:8080>
+    ADCTL_HOST="<host:port, e.g., router.example.com:8080, or https://router.example.com>"
 
-The username and password are what you'd use to log into the AdGuard Home console. `ADCTL_HOST` is the host and port you use to reach the GUI.  Mine is set to `router:8080` but IP address will work too. AdGuard Home doesn't support auth tokens so hardcoded password is all you get. Also, the connection to the server is HTTP, not HTTPS, so your password is sent in cleartext. Use a unique password! 
+### Configuration Files
 
-I might add Viper support so `adctl` can get its config from a file, but right now env vars is all there is.
+`adctl` also supports loading configuration from files:
+
+1. **Global configuration**: `/etc/adctl.conf`
+2. **User configuration**: `~/.adctl` (in your home directory)
+
+Configuration files use a simple `KEY=VALUE` format:
+
+```bash
+# AdGuard Control configuration
+ADCTL_HOST=adguard.local:3000
+ADCTL_USERNAME=admin
+ADCTL_PASSWORD=your_password_here
+```
+
+**Priority order** (later sources override earlier ones):
+1. Global config file (`/etc/adctl.conf`)
+2. User config file (`~/.adctl`)
+3. Environment variables
+
+
+### Authentication Notes
+
+The username and password are what you'd use to log into the AdGuard Home console. `ADCTL_HOST` is the host and port you use to reach the GUI.  Mine is set to `router:8080` but IP address will work too. AdGuard Home doesn't support auth tokens so hardcoded password is all you get.
+
+The default connection is HTTP, so if used without TLS, your password is sent in cleartext.
+
+To securely connect with TLS, prefix your `ADCTL_HOST` variable with `https://`.
 
 All output is json and suitable for piping to `jq` and `gron` and such. 
 
