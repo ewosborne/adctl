@@ -1,6 +1,7 @@
 package common
 
 import (
+	"bufio"
 	"bytes"
 	"encoding/json"
 	"fmt"
@@ -8,6 +9,8 @@ import (
 	"net/http"
 	"net/url"
 	"os"
+	"path/filepath"
+	"strings"
 	"time"
 )
 
@@ -17,15 +20,90 @@ type CommandArgs struct {
 	URL         url.URL
 }
 
-func GetBaseURL() (url.URL, error) {
-	var ret = url.URL{Scheme: "http"}
+// LoadConfig reads configuration files and sets environment variables if they're not already set
+func LoadConfig() error {
+	configs := map[string]string{}
 
-	h, err := getHost()
-	if err != nil {
-		return ret, err
+	if err := readConfigFile("/etc/adctl.conf", configs); err != nil {
+		if !os.IsNotExist(err) {
+			return fmt.Errorf("error reading /etc/adctl.conf: %w", err)
+		}
 	}
 
-	ret.Host = fmt.Sprint(h)
+	homeDir, err := os.UserHomeDir()
+	if err != nil {
+		return fmt.Errorf("error getting user home directory: %w", err)
+	}
+	userConfigPath := filepath.Join(homeDir, ".adctl")
+	if err := readConfigFile(userConfigPath, configs); err != nil {
+		if !os.IsNotExist(err) {
+			return fmt.Errorf("error reading %s: %w", userConfigPath, err)
+		}
+	}
+
+	envVarsSet := 0
+	for key, value := range configs {
+		if _, exists := os.LookupEnv(key); !exists {
+			os.Setenv(key, value)
+			envVarsSet++
+		}
+	}
+
+	return nil
+}
+
+// readConfigFile reads a configuration file and parses key=value pairs
+func readConfigFile(filename string, configs map[string]string) error {
+	file, err := os.Open(filename)
+	if err != nil {
+		return err
+	}
+	defer file.Close()
+
+	scanner := bufio.NewScanner(file)
+	for scanner.Scan() {
+		line := strings.TrimSpace(scanner.Text())
+
+		if line == "" || strings.HasPrefix(line, "#") {
+			continue
+		}
+
+		parts := strings.SplitN(line, "=", 2)
+		if len(parts) != 2 {
+			continue
+		}
+
+		key := strings.TrimSpace(parts[0])
+		value := strings.TrimSpace(parts[1])
+
+		if len(value) >= 2 && ((value[0] == '"' && value[len(value)-1] == '"') ||
+			(value[0] == '\'' && value[len(value)-1] == '\'')) {
+			value = value[1 : len(value)-1]
+		}
+
+		if key == "ADCTL_HOST" || key == "ADCTL_USERNAME" || key == "ADCTL_PASSWORD" {
+			configs[key] = value
+		}
+	}
+
+	return scanner.Err()
+}
+
+func GetBaseURL() (url.URL, error) {
+	h, err := getHost()
+	if err != nil {
+		return url.URL{}, err
+	}
+
+	scheme := "http"
+	if len(h) >= 8 && h[:8] == "https://" {
+		scheme = "https"
+		h = h[8:]
+	} else if len(h) >= 7 && h[:7] == "http://" {
+		scheme = "http"
+		h = h[7:]
+	}
+	ret := url.URL{Scheme: scheme, Host: fmt.Sprint(h)}
 	return ret, nil
 
 }
