@@ -41,17 +41,22 @@ var rewriteDeleteCmd = &cobra.Command{
 }
 
 func init() {
-	rootCmd.AddCommand(rewriteCmd)
-	rewriteCmd.AddCommand(rewriteListCmd)
+	//
+	// 11/30/2025: removing rewrite because the api looks like it changed and I never used this via CLI anyways
+	//  TODO: fix for real or remove for real
+	//
 
-	rewriteCmd.AddCommand(rewriteAddCmd)
-	rewriteCmd.AddCommand(rewriteDeleteCmd)
+	// rootCmd.AddCommand(rewriteCmd)
+	// rewriteCmd.AddCommand(rewriteListCmd)
 
-	rewriteAddCmd.Flags().String("domain", "", "Name or wildcard to match on")
-	rewriteAddCmd.Flags().String("answer", "", "Answer to supply in response. IP address, domain name, or some weird special stuff around A and AAAA.")
+	// rewriteCmd.AddCommand(rewriteAddCmd)
+	// rewriteCmd.AddCommand(rewriteDeleteCmd)
 
-	rewriteDeleteCmd.Flags().String("domain", "", "Name or wildcard to match on")
-	rewriteDeleteCmd.Flags().String("answer", "", "Answer to supply in response. IP address, domain name, or some weird special stuff around A and AAAA.")
+	// rewriteAddCmd.Flags().String("domain", "", "Name or wildcard to match on")
+	// rewriteAddCmd.Flags().String("answer", "", "Answer to supply in response. IP address, domain name, or some weird special stuff around A and AAAA.")
+
+	// rewriteDeleteCmd.Flags().String("domain", "", "Name or wildcard to match on")
+	// rewriteDeleteCmd.Flags().String("answer", "", "Answer to supply in response. IP address, domain name, or some weird special stuff around A and AAAA.")
 
 }
 

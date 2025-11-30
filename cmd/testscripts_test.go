@@ -42,7 +42,7 @@ func Test_AllReadonly(t *testing.T) {
 			"testdata/script/filter_check_doubleclick.txtar",
 			"testdata/script/filter_check_mit.txtar",
 			"testdata/script/all_service.txtar",
-			"testdata/script/rewrite_list.txtar",
+			//"testdata/script/rewrite_list.txtar",
 			"testdata/script/log.txtar",
 		},
 	},
@@ -51,25 +51,25 @@ func Test_AllReadonly(t *testing.T) {
 
 /* everything below here are tests which read and write and so need to not be run in parallel */
 
-func TestRewrite_AddListCLI(t *testing.T) {
-	testscript.Run(t, testscript.Params{
-		Setup: setupEnv,
-		Files: []string{
-			"testdata/script/rewrite_add_list.txtar",
-		},
-	},
-	)
-}
+// func TestRewrite_AddListCLI(t *testing.T) {
+// 	testscript.Run(t, testscript.Params{
+// 		Setup: setupEnv,
+// 		Files: []string{
+// 			"testdata/script/rewrite_add_list.txtar",
+// 		},
+// 	},
+// 	)
+// }
 
-func TestRewrite_DeleteCLI(t *testing.T) {
-	testscript.Run(t, testscript.Params{
-		Setup: setupEnv,
-		Files: []string{
-			"testdata/script/rewrite_delete.txtar",
-		},
-	},
-	)
-}
+// func TestRewrite_DeleteCLI(t *testing.T) {
+// 	testscript.Run(t, testscript.Params{
+// 		Setup: setupEnv,
+// 		Files: []string{
+// 			"testdata/script/rewrite_delete.txtar",
+// 		},
+// 	},
+// 	)
+// }
 
 func TestEnableCLI(t *testing.T) {
 	testscript.Run(t, testscript.Params{
