@@ -1,4 +1,4 @@
-exec adctl status disable
+exec adctl disable
 cmpenv stdout json.txt
 
 -- json.txt --

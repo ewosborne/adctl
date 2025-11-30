@@ -1,6 +1,6 @@
-exec adctl status disable 30s
+exec adctl disable 30s
 grep ".*duration.*2[0-9]s" json.txt
-exec adctl status enable
+exec adctl enable
 
 
 -- json.txt --
