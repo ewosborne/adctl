@@ -19,18 +19,6 @@ var statusCmd = &cobra.Command{
 	RunE:  StatusGetCmdE,
 }
 
-var statusToggleCmd = &cobra.Command{
-	Use:   "toggle",
-	Short: "Toggle adblocker between enabled and disabled.",
-	RunE:  ToggleCmdE,
-}
-
-var statusEnableCmd = &cobra.Command{
-	Use:   "enable",
-	Short: "Enable ad blocking",
-	RunE:  StatusEnableCmdE,
-}
-
 // statusCmd represents the status command
 //
 //lint:ignore U1000 not sure why it's unhappy
@@ -38,13 +26,6 @@ var statusGetCmd = &cobra.Command{
 	Use:   "get",
 	Short: "Get adblock status",
 	RunE:  StatusGetCmdE,
-}
-
-var statusDisableCmd = &cobra.Command{
-	Use:   "disable",
-	Short: "Disable ad blocker. Optional duration in time.Duration format.",
-	Args:  cobra.RangeArgs(0, 1),
-	RunE:  StatusDisableCmdE,
 }
 
 type Status struct {
@@ -62,14 +43,6 @@ type ReadableStatus struct {
 	Protection_disabled_duration string
 }
 
-func ToggleCmdE(cmd *cobra.Command, args []string) error {
-	return printToggle()
-}
-
-func StatusEnableCmdE(cmd *cobra.Command, flags []string) error {
-	return printEnable()
-}
-
 func StatusGetCmdE(cmd *cobra.Command, args []string) error {
 	s, err := GetStatus()
 	if err != nil {
@@ -80,14 +53,6 @@ func StatusGetCmdE(cmd *cobra.Command, args []string) error {
 
 func init() {
 	rootCmd.AddCommand(statusCmd)
-
-	// left this one out on purpose, not sure why TODO figure it out
-	//statusCmd.AddCommand(statusGetCmd)
-	statusCmd.AddCommand(statusToggleCmd)
-	statusCmd.AddCommand(statusEnableCmd)
-
-	statusCmd.AddCommand(statusDisableCmd)
-
 }
 
 func printToggle() error {
@@ -173,84 +138,4 @@ func GetStatus() (Status, error) {
 	json.Unmarshal(body, &s)
 
 	return s, nil
-}
-
-func printEnable() error {
-
-	var err error
-	status, err := enableCommand()
-	if err != nil {
-		return err
-	}
-	err = PrintStatus(status)
-	if err != nil {
-		return err
-	}
-	return nil
-}
-
-func enableCommand() (Status, error) {
-
-	err := common.AbleCommand(true, "")
-	if err != nil {
-		return Status{}, err
-	}
-
-	status, err := GetStatus()
-	if err != nil {
-		return Status{}, err
-	}
-
-	return status, nil
-}
-
-func StatusDisableCmdE(cmd *cobra.Command, args []string) error {
-
-	var dTime = DisableTime{}
-
-	switch len(args) {
-	case 0:
-		dTime.HasTimeout = false
-	case 1:
-		dTime.HasTimeout = true
-		dTime.Duration = args[0]
-	default:
-		return fmt.Errorf("only one arg allowed for disable")
-	}
-
-	return printDisable(dTime)
-}
-
-func printDisable(dTime DisableTime) error {
-
-	var err error
-
-	status, err := disableCommand(dTime)
-	if err != nil {
-		return err
-	}
-
-	PrintStatus(status)
-
-	return err
-
-}
-
-func disableCommand(dTime DisableTime) (Status, error) {
-
-	var err error
-
-	if dTime.HasTimeout {
-		err = common.AbleCommand(false, dTime.Duration)
-	} else {
-		err = common.AbleCommand(false, "")
-	}
-
-	if err != nil {
-		return Status{}, err
-	}
-
-	s, err := GetStatus()
-
-	return s, err
 }
