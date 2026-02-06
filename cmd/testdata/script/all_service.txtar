@@ -51,6 +51,7 @@ cmp stdout all-service.json
  "Flickr": "flickr",
  "GOG": "gog",
  "Globoplay": "globoplay",
+ "Google Play Store": "playstore",
  "HBO Max": "hbomax",
  "Hulu": "hulu",
  "Imgur": "imgur",
