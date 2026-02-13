@@ -9,6 +9,7 @@ import (
 	"log"
 	"os"
 
+	"github.com/ewosborne/adctl/common"
 	"github.com/spf13/cobra"
 )
 
@@ -53,6 +54,11 @@ func init() {
 			debugLogger.SetOutput(os.Stderr)
 		} else {
 			debugLogger.SetOutput(io.Discard)
+		}
+
+		// Load configuration from files
+		if err := common.LoadConfig(); err != nil {
+			debugLogger.Printf("Warning: %v", err)
 		}
 	}
 }
